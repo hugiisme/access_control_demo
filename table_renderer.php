@@ -178,7 +178,9 @@
 
     // Pagination
     function renderPagination($currentPage, $totalPages, $baseUrl) {
-        parse_str(parse_url($baseUrl, PHP_URL_QUERY), $params);
+        // parse_str(parse_url($baseUrl, PHP_URL_QUERY), $params);
+        parse_str(parse_url($baseUrl, PHP_URL_QUERY) ?? '', $params);
+
 
         echo "<form id='pagination-form' class='pagination-form' method='GET'>";
         foreach ($params as $key => $value) {
