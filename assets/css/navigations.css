@@ -1,0 +1,80 @@
+/* === Sidebar Navigation Styles === */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    background-color: #fff;
+    border-right: 1px solid #e0e0e0;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 1000;
+}
+
+/* === Menu List === */
+
+.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu li {
+    width: 100%;
+}
+
+.menu a {
+    display: block;
+    padding: 14px 24px;
+    font-size: 15px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    border-left: 4px solid transparent;
+}
+
+.menu a:hover {
+    background-color: #f2f2f2;
+    color: #222;
+}
+
+.menu a.active {
+    background-color: #4f46e5;
+    color: #fff;
+    font-weight: 500;
+    border-left: 4px solid #4338ca;
+}
+
+.menu a.active:hover {
+    background-color: #4338ca;
+}
+
+/* === Logout Section === */
+
+.logout-section {
+    padding: 20px;
+}
+
+.logout-button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 12px 0;
+    background-color: #d9534f;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #c9302c;
+}

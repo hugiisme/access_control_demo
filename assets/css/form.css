@@ -1,0 +1,98 @@
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 600;
+}
+
+.input-text,
+.input-number,
+.input-select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.button-cancel,
+.button-submit {
+    padding: 10px 16px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+}
+
+.button-cancel {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.button-cancel:hover {
+    background-color: #e0e0e0;
+    color: #000;
+}
+
+.button-submit {
+    background-color: #007bff;
+    color: white;
+}
+
+.button-submit:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+.tag-container {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.tag {
+    background-color: #e2e8f0;
+    border-radius: 16px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+.remove-tag {
+    margin-left: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: #e53e3e;
+}
+.remove-tag:hover {
+    color: #c53030;
+}

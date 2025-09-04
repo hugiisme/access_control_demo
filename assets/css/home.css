@@ -1,0 +1,70 @@
+/* Form wrapper */
+#permission-form {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f5f8fa;
+    border: 1px solid black;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    font-family: Arial, sans-serif;
+}
+
+/* Title */
+#permission-form h1 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Form groups */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Label */
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Input & select */
+.input-number,
+.input-select {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid black;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Radio buttons */
+.form-group input[type="radio"] {
+    margin-right: 5px;
+}
+
+/* Submit button */
+.form-buttons {
+    text-align: center;
+}
+
+.button-submit {
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.button-submit:hover {
+    background-color: #449d44;
+}
+
+/* Animation khi hiện/ẩn */
+.form-group {
+    transition: all 0.2s ease-in-out;
+}

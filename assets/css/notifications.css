@@ -1,0 +1,73 @@
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 9999;
+}
+
+.notification {
+    position: relative;
+    padding: 12px 36px 12px 16px;
+    border-radius: 8px;
+    color: white;
+    font-family: sans-serif;
+    font-size: 14px;
+    min-width: 200px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease;
+    opacity: 0.95;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.notification.success {
+    background-color: #4caf50;
+} /* Green */
+.notification.error {
+    background-color: #f44336;
+} /* Red */
+.notification.info {
+    background-color: #2196f3;
+} /* Blue */
+.notification.warning {
+    background-color: #ff9800;
+} /* Orange */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 0.95;
+        transform: translateY(0);
+    }
+}
+
+.notification.hide {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.notification .close-btn {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: inherit;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    font-size: 24px;
+}
+
+.notification .message {
+    display: block;
+    word-wrap: break-word;
+    max-width: 500px; /* Adjust for close button */
+}
