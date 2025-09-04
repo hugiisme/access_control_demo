@@ -7,7 +7,7 @@
         session_start();
     }
 
-    $tableName = "system_role_group_permissions";
+    $tableName = "system_role_group_roles";
     $userId = $_SESSION['user']['id'] ?? null;
     $group_id = $_GET['group_id'] ?? null;
     if(!$group_id) {
@@ -15,7 +15,7 @@
         exit;
     }
 
-    if(!checkVersionMatch($userId, getResourceTypeByName('system_role_group_permissions')['id'])){
+    if(!checkVersionMatch($userId, getResourceTypeByName('system_role_group_roles')['id'])){
         buildSnapshot($userId);
     }
 
@@ -25,31 +25,27 @@
     }
 
     // Lấy danh sách resource mà user có quyền View (truyền tên, không truyền ID)
-    $accessibleResources = getAccessibleResources($userId, 'View', 'system_role_group_permissions');
+    $accessibleResources = getAccessibleResources($userId, 'View', 'system_role_group_roles');
     if (!empty($accessibleResources)) {
         $entityIds = array_column($accessibleResources, 'entity_id');
         if (!empty($entityIds)) {
             $entityIdList = implode(',', $entityIds);
 
             $query = "SELECT 
-                        srgp.id AS id,
+                        srgr.id AS id,
                         srg.name AS 'Tên nhóm vai trò',
-                        a.name AS 'Tên hành động',
-                        rt.name AS 'Tên loại tài nguyên'
-                    FROM system_role_group_permissions srgp
-                    JOIN permissions p ON srgp.permission_id = p.id
-                    JOIN actions a ON p.action_id = a.id
-                    JOIN resource_types rt ON p.resource_type_id = rt.id
-                    JOIN system_role_groups srg ON srgp.system_role_group_id = srg.id
+                        sr.name AS 'Tên vai trò'
+                        FROM system_role_group_roles srgr
+                        JOIN system_role_groups srg ON srgr.system_role_group_id = srg.id
+                        JOIN system_roles sr ON srgr.system_role_id = sr.id
                 WHERE 1=1
-                AND srgp.id IN ($entityIdList) AND srgp.system_role_group_id = $group_id";
+                AND srgr.id IN ($entityIdList) AND srgr.system_role_group_id = $group_id";
 
             // Map alias tiếng Việt -> cột thật để filter/sort
             $columnMapping = [
-                'id'                => 'srgp.id',
-                'Tên nhóm vai trò' => 'srgp.name',
-                'Tên hành động'             => "a.name",
-                'Tên loại tài nguyên'       => "rt.name"
+                'id'                         => 'srgr.id',
+                'Tên nhóm vai trò'          => 'srg.name',
+                'Tên hành động'             => "sr.name"
             ];
         }
     } else {
@@ -65,11 +61,11 @@
 
     // Xác định trạng thái các nút dựa trên quyền
     if (defined("IS_DEBUG") && !IS_DEBUG) {
-        $canCreate = hasPermission($userId, 'Create', null, 'system_role_group_permissions');
-        $canAssign = hasPermission($userId, 'Assign', null, 'system_role_group_permissions');
-        $canEdit = hasPermission($userId, 'Edit', null, 'system_role_group_permissions');
-        $canDelete = hasPermission($userId, 'Delete', null, 'system_role_group_permissions');
-        $canViewDetails = hasPermission($userId, 'View', null, 'system_role_group_permissions');
+        $canCreate = hasPermission($userId, 'Create', null, 'system_role_group_roles');
+        $canAssign = hasPermission($userId, 'Assign', null, 'system_role_group_roles');
+        $canEdit = hasPermission($userId, 'Edit', null, 'system_role_group_roles');
+        $canDelete = hasPermission($userId, 'Delete', null, 'system_role_group_roles');
+        $canViewDetails = hasPermission($userId, 'View', null, 'system_role_group_roles');
     } else {
         $canCreate = true;
         $canAssign = true;
@@ -84,8 +80,8 @@
     if ($canCreate) {
         $buttonList[] = [
             "btn_type" => "Create",
-            "label"    => "Gán quyền cho nhóm vai trò",
-            "btn_url"  => "/pages/system_role_group_permissions/form.php?group_id=" . $group_id .  "&redirectLink=" . urlencode($reloadLink)
+            "label"    => "Gán vai trò cho nhóm vai trò",
+            "btn_url"  => "/pages/system_role_group_roles/form.php?group_id=" . $group_id .  "&redirectLink=" . urlencode($reloadLink)
         ];
     }
 

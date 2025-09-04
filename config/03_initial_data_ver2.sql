@@ -19,7 +19,9 @@ INSERT INTO resource_types (name, version) VALUES
 ('user_resources', 1),
 ('system_role_groups', 1),
 ('user_orgs', 1),
-('org_permissions', 1);
+('org_permissions', 1),
+('system_role_group_permissions', 1),
+('system_role_group_roles', 1);
 
 INSERT INTO resources (name, description, resource_type_id, entity_id) VALUES 
 ('Resource Type system_roles Resource', 'Resource Type system_roles Resource', (SELECT id FROM resource_types WHERE name = 'resource_types'), (SELECT id FROM resource_types WHERE name = 'system_roles')),
@@ -42,8 +44,9 @@ INSERT INTO resources (name, description, resource_type_id, entity_id) VALUES
 ('Resource Type user_resources Resource', 'Resource Type user_resources Resource', (SELECT id FROM resource_types WHERE name = 'resource_types'), (SELECT id FROM resource_types WHERE name = 'user_resources')),
 ('Resource Type system_role_groups Resource', 'Resource Type system_role_groups Resource', (SELECT id FROM resource_types WHERE name = 'resource_types'), (SELECT id FROM resource_types WHERE name = 'system_role_groups')),
 ('Resource Type user_orgs Resource', 'Resource Type user_orgs Resource', (SELECT id FROM resource_types WHERE name = 'resource_types'), (SELECT id FROM resource_types WHERE name = 'user_orgs')),
-('Resource Type org_permissions Resource', 'Resource Type org_permissions Resource', (SELECT id FROM resource_types WHERE name = 'resource_types'), (SELECT id FROM resource_types WHERE name = 'org_permissions'));
-
+('Resource Type org_permissions Resource', 'Resource Type org_permissions Resource', (SELECT id FROM resource_types WHERE name = 'resource_types'), (SELECT id FROM resource_types WHERE name = 'org_permissions')),
+('Resource Type system_role_group_permissions Resource', 'Resource Type system_role_group_permissions Resource', (SELECT id FROM resource_types WHERE name = 'resource_types'), (SELECT id FROM resource_types WHERE name = 'system_role_group_permissions')),
+('Resource Type system_role_group_roles Resource', 'Resource Type system_role_group_roles Resource', (SELECT id FROM resource_types WHERE name = 'resource_types'), (SELECT id FROM resource_types WHERE name = 'system_role_group_roles'));
 
 INSERT INTO actions (name, description) VALUES
 ('View', 'Xem'),

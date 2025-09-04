@@ -72,4 +72,15 @@
         }
         return $result;
     }
+
+    function org_permissionList($org_id) {
+        global $conn;
+        $query = "SELECT p.id, a.name AS action_name, rt.name AS resource_type_name
+                  FROM org_permissions op
+                  JOIN permissions p ON op.permission_id = p.id
+                  JOIN actions a ON p.action_id = a.id
+                  JOIN resource_types rt ON p.resource_type_id = rt.id
+                  WHERE op.org_id = $org_id";
+        return query($conn, $query);
+    }
 ?>

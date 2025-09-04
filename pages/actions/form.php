@@ -8,7 +8,6 @@
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-
     
     $redirectLink = $_GET['redirectLink'] ?? '/index.php';
     $mode = isset($_GET['id']) ? 'edit' : 'create';
