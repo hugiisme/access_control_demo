@@ -12,7 +12,7 @@
     
     $redirectLink = $_GET['redirectLink'] ?? '/index.php';
     $mode = isset($_GET['id']) ? 'edit' : 'create';
-    $resourceTypeName = 'system_role_permissions';
+    $resourceTypeName = 'user_system_roles';
     $resourceTypeId = getResourceTypeByName($resourceTypeName)['id'];
     // TODO: chưa xử lý trường hợp quan hệ với chính nó
     
@@ -21,40 +21,40 @@
         echo '<h2>Vui lòng chọn vai trò để xem dữ liệu</h2>';
         exit;
     }
-    $group_id = $_GET['group_id'] ?? null;
-    if ($group_id == null) {
-        $group_id_query = "SELECT * FROM system_role_group_roles WHERE system_role_id = $role_id ORDER BY id LIMIT 1";
-        $group_id_results = query($conn, $group_id_query);
-        if(!$group_id_results){
+    $org_id = $_GET['org_id'] ?? null;
+    if ($org_id == null) {
+        $org_id_query = "SELECT org_id FROM system_roles WHERE id = $role_id";
+        $org_id_results = query($conn, $org_id_query);
+        if(!$org_id_results){
             echo '<h2>Không thể thực hiện gán quyền cho vai trò nếu ko biết nhóm vai trò</h2>';
             exit;
         }
     }
 
-    $permissionList = group_permissionList($group_id);
+    $userList = getUserList(mysqli_fetch_assoc($org_id_results)['org_id']);
 
     function createHandler($redirectLink, $resourceTypeId){
         global $conn;
 
-        if(!hasPermission($_SESSION['user']['id'], 'Create', null, 'system_role_permissions')) {
+        if(!hasPermission($_SESSION['user']['id'], 'Create', null, 'user_system_roles')) {
             redirectWithError("Bạn không có quyền truy cập vào trang này.", $redirectLink);
         }
-        $label = "Gán quyền mới cho vai trò";
+        $label = "Gán người dùng cho vai trò";
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $role_id = $_POST['role_id'];
-            $permissionId = $_POST['permission_id'];
+            $userId = $_POST['userId'];
 
             // Bước 1: insert
-            $insertQuery = "INSERT INTO system_role_permissions (system_role_id, permission_id) 
-                            VALUES ($role_id, $permissionId)";
+            $insertQuery = "INSERT INTO user_system_roles (system_role_id, user_id) 
+                            VALUES ($role_id, $userId)";
 
             if (!query($conn, $insertQuery)) {
-                redirectWithError("Lỗi khi Gán quyền mới cho vai trò: " . mysqli_error($conn), $redirectLink);
+                redirectWithError("Lỗi khi Gán người dùng cho vai trò: " . mysqli_error($conn), $redirectLink);
             }
             
             // Bước 2: tạo resource 
             $newResource = mysqli_insert_id($conn);
-            createResource('system role permissions ' . $role_id . '-' . $permissionId , 
+            createResource('system role permissions ' . $role_id . '-' . $userId , 
             null, null, $resourceTypeId, $newResource);
             
             // Bước 3: update version
@@ -65,7 +65,7 @@
 
             
 
-            add_notification("success", "Gán quyền mới cho vai trò thành công", 4000);
+            add_notification("success", "Gán người dùng cho vai trò thành công", 4000);
             header("Location: $redirectLink");
             exit;
         }
@@ -80,9 +80,9 @@
 
 
     if ($mode === 'create') {
-        [$label, $system_role_permission] = createHandler($redirectLink, $resourceTypeId);
+        [$label, $user_system_roles] = createHandler($redirectLink, $resourceTypeId);
     } else if ($mode === 'edit') {
-        [$label, $system_role_permission] = editHandler($redirectLink, $resourceTypeId);
+        [$label, $user_system_roles] = editHandler($redirectLink, $resourceTypeId);
     }
 
 ?>
@@ -103,9 +103,9 @@
         <div class="form-group">
             <label for="permission">Quyền</label>
             <?php
-                echo '<select name="permission_id" id="permission-id" class="input-select">';
-                while ($row = mysqli_fetch_assoc($permissionList)) {
-                    echo "<option value='" . $row['id'] . "'>" . htmlspecialchars($row['action_name'] . ' - ' . $row['resource_type_name']) . "</option>";
+                echo '<select name="userId" id="user-id" class="input-select">';
+                while ($row = mysqli_fetch_assoc($userList)) {
+                    echo "<option value='" . $row['id'] . "'>" . htmlspecialchars($row['name'] ) . "</option>";
                 }
                 echo '</select>';
             ?>

@@ -20,7 +20,7 @@
 
 
 ?>
-<h1 class="page-title">Danh sách quyền của vai trò <?php echo $systemRoleName ?></h1>
+<h1 class="page-title">Danh sách thành viên sở hữu vai trò <?php echo $systemRoleName ?></h1>
 
 <?php
     include "includes/table_content.php";

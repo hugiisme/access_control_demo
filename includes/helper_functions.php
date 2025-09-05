@@ -94,4 +94,14 @@
                   WHERE srgp.system_role_group_id = $group_id";
         return query($conn, $query);
     }
+
+    function getUserList($org_id) {
+        global $conn;
+        $query = "SELECT u.id, u.name 
+                FROM user_orgs uo
+                JOIN users u ON uo.user_id = u.id
+                JOIN organizations o ON uo.org_id = o.id
+                WHERE o.id = $org_id";
+        return query($conn, $query);
+    }
 ?>
