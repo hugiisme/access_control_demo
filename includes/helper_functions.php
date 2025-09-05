@@ -83,4 +83,15 @@
                   WHERE op.org_id = $org_id";
         return query($conn, $query);
     }
+
+    function group_permissionList($group_id) {
+        global $conn;
+        $query = "SELECT p.id, a.name AS action_name, rt.name AS resource_type_name
+                  FROM system_role_group_permissions srgp
+                  JOIN permissions p ON srgp.permission_id = p.id
+                  JOIN actions a ON p.action_id = a.id
+                  JOIN resource_types rt ON p.resource_type_id = rt.id
+                  WHERE srgp.system_role_group_id = $group_id";
+        return query($conn, $query);
+    }
 ?>

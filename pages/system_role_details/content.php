@@ -13,15 +13,19 @@
     $systemRoleNameQuery = "SELECT name FROM system_roles WHERE id = $system_role_id";
     $systemRoleNameResult = query($conn, $systemRoleNameQuery);
     if(mysqli_num_rows($systemRoleNameResult) === 0) {
-        add_notification("error", "Nhóm vai trò không tồn tại", 4);
+        add_notification("error", "Vai trò không tồn tại", 4);
         exit;
     }
     $systemRoleName = mysqli_fetch_assoc($systemRoleNameResult)['name'];
 
 
 ?>
-<h1 class="page-title">Danh sách quyền của vai trò <?php echo $systemRoleName ?></h1>
+<h1 class="page-title">Thông tin chi tiết của vai trò <?php echo $systemRoleName ?></h1>
 
-<?php
-    include "includes/table_content.php";
-?>
+    
+<ul class="detail-links">
+    <li><a href="index.php?pageName=system_role_permissions&role_id=<?php echo  $system_role_id?>">Danh sách quyền của vai trò</a></li>
+    <li><a href="index.php?pageName=user_system_roles&role_id=<?php echo  $system_role_id?>">Danh sách thành viên có vai trò</a></li>
+</ul>
+
+

@@ -121,7 +121,7 @@
         $buttonList[] = [
             "btn_type" => "Details",
             "label"    => "Chi tiết",
-            "btn_url"  => "",
+            "btn_url"  => "index.php?pageName=system_role_details",
             "check_action" => 'View'
         ];
     }

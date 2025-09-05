@@ -78,7 +78,7 @@
         $buttonList[] = [
             "btn_type" => "Assign",
             "label"    => "Gán quan hệ Loại tổ chức",
-            "btn_url"  => "/pages/org_types/assign.php?redirectLink=" . urlencode($reloadLink)
+            "btn_url"  => ""
         ];
     }
 

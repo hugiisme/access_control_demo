@@ -2,16 +2,16 @@
     define("IS_DEBUG", true);
 
     // local
-    // $db_server = "localhost";
-    // $db_user = "root";
-    // $db_password = "";
-    // $db_name = "ac_demo";
+    $db_server = "localhost";
+    $db_user = "root";
+    $db_password = "";
+    $db_name = "ac_demo";
 
     // host
-    $db_server = "nvme.h2cloud.vn";
-    $db_user = "diemdanh_ctd_root";
-    $db_password = "@cntt2025";
-    $db_name = "diemdanh_doan_v1";
+    // $db_server = "nvme.h2cloud.vn";
+    // $db_user = "diemdanh_ctd_root";
+    // $db_password = "@cntt2025";
+    // $db_name = "diemdanh_doan_v1";
     
     // Bật chế độ báo lỗi chi tiết cho mysqli
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);

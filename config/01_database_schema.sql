@@ -124,7 +124,7 @@ CREATE TABLE system_role_groups (
     description TEXT,
     org_id INT COMMENT 'ID tổ chức sở hữu nhóm vai trò',
     parent_group_id INT COMMENT 'ID nhóm cha, NULL nếu là nhóm gốc',
-    FOREIGN KEY (org_id) REFERENCES organizations(id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (org_id) REFERENCES organizations(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (parent_group_id) REFERENCES system_role_groups(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 

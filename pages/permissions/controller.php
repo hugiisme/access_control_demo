@@ -78,7 +78,7 @@
         $buttonList[] = [
             "btn_type" => "Assign",
             "label"    => "Gán quan hệ Quyền",
-            "btn_url"  => "/pages/permissions/assign.php?redirectLink=" . urlencode($reloadLink)
+            "btn_url"  => ""
         ];
     }
 

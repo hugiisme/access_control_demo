@@ -116,7 +116,7 @@
         $buttonList[] = [
             "btn_type" => "Details",
             "label"    => "Chi tiết",
-            "btn_url"  => "",
+            "btn_url"  => "index.php?pageName=system_role_permissions&group_id=$group_id",
             "check_action" => 'View'
         ];
     }
