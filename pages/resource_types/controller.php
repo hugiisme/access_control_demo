@@ -55,11 +55,16 @@
 
     // Xác định trạng thái các nút dựa trên quyền
     if (defined("IS_DEBUG") && !IS_DEBUG) {
-        $canCreate = hasPermission($userId, 'Create', null, 'resource_types');
-        $canAssign = hasPermission($userId, 'Assign', null, 'resource_types');
-        $canEdit = hasPermission($userId, 'Edit', null, 'resource_types');
-        $canDelete = hasPermission($userId, 'Delete', null, 'resource_types');
-        $canViewDetails = hasPermission($userId, 'Manage', null, 'resource_types');
+        $canCreate = true;
+        $canAssign = true;
+        $canEdit = true;
+        $canDelete = true;
+        $canViewDetails = true;
+        // $canCreate = hasPermission($userId, 'Create', null, 'resource_types');
+        // $canAssign = hasPermission($userId, 'Assign', null, 'resource_types');
+        // $canEdit = hasPermission($userId, 'Edit', null, 'resource_types');
+        // $canDelete = hasPermission($userId, 'Delete', null, 'resource_types');
+        // $canViewDetails = hasPermission($userId, 'Manage', null, 'resource_types');
     } else {
         $canCreate = true;
         $canAssign = true;

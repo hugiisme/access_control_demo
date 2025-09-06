@@ -65,11 +65,16 @@
 
     // Xác định trạng thái các nút dựa trên quyền
     if (defined("IS_DEBUG") && !IS_DEBUG) {
-        $canCreate = hasPermission($userId, 'Create', null, 'system_role_groups');
-        $canAssign = hasPermission($userId, 'Assign', null, 'system_role_groups');
-        $canEdit = hasPermission($userId, 'Edit', null, 'system_role_groups');
-        $canDelete = hasPermission($userId, 'Delete', null, 'system_role_groups');
-        $canViewDetails = hasPermission($userId, 'View', null, 'system_role_groups');
+        $canCreate = true;
+        $canAssign = false;
+        $canEdit = true;
+        $canDelete = true;
+        $canViewDetails = true;
+        // $canCreate = hasPermission($userId, 'Create', null, 'system_role_groups');
+        // $canAssign = hasPermission($userId, 'Assign', null, 'system_role_groups');
+        // $canEdit = hasPermission($userId, 'Edit', null, 'system_role_groups');
+        // $canDelete = hasPermission($userId, 'Delete', null, 'system_role_groups');
+        // $canViewDetails = hasPermission($userId, 'View', null, 'system_role_groups');
     } else {
         $canCreate = true;
         $canAssign = false;
