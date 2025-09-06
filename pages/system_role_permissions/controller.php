@@ -23,6 +23,7 @@
             echo '<h2>Không thể thực hiện gán quyền cho vai trò nếu ko biết nhóm vai trò</h2>';
             exit;
         }
+        $group_id = $group_id_results['id']
     }
 
     if(!checkVersionMatch($userId, getResourceTypeByName('system_role_permissions')['id'])){
@@ -99,7 +100,7 @@
     if ($canCreate) {
         $buttonList[] = [
             "btn_type" => "Create",
-            "label"    => "Gán quyền cho nhóm vai trò",
+            "label"    => "Gán quyền cho vai trò",
             "btn_url"  => "/pages/system_role_permissions/form.php?role_id=" . $role_id . "&group_id=" . $group_id .  "&redirectLink=" . urlencode($reloadLink)
         ];
     }
@@ -107,7 +108,7 @@
     if ($canAssign) {
         $buttonList[] = [
             "btn_type" => "Assign",
-            "label"    => "Gán quan hệ nhóm vai trò",
+            "label"    => "Gán quan hệ vai trò",
             "btn_url"  => ""
         ];
     }
