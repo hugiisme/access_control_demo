@@ -16,6 +16,15 @@
         exit;
     }
 
+    if ($group_id == null) {
+        $group_id_query = "SELECT * FROM system_role_group_roles WHERE system_role_id = $role_id ORDER BY id LIMIT 1";
+        $group_id_results = query($conn, $group_id_query);
+        if(!$group_id_results){
+            echo '<h2>Không thể thực hiện gán quyền cho vai trò nếu ko biết nhóm vai trò</h2>';
+            exit;
+        }
+    }
+
     if(!checkVersionMatch($userId, getResourceTypeByName('system_role_permissions')['id'])){
         buildSnapshot($userId);
     }
