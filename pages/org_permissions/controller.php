@@ -38,7 +38,7 @@
                     o.name AS 'Tên tổ chức'
                 FROM org_permissions op
                 JOIN organizations o ON op.org_id = o.id
-                JOIN permissions p ON OP.permission_id = p.id 
+                JOIN permissions p ON op.permission_id = p.id 
                 JOIN actions a ON p.action_id = a.id 
                 JOIN resource_types rt ON p.resource_type_id = rt.id
                 WHERE 1=1
