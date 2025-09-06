@@ -106,365 +106,417 @@
     }
 
     function buildSnapshot($userID) {
-        global $conn;
-        if(defined("IS_DEBUG") && IS_DEBUG) {
-            
-            // Xóa snapshot cũ
-            deleteSnapshot($userID);
+    global $conn;
 
-            $mapAllActionAndResourcesQuery = "
+    // 1) Xóa snapshot cũ
+    deleteSnapshot($userID);
+
+    // Nếu bật debug: nhét full actions x resources để dễ kiểm
+    if (defined("IS_DEBUG") && IS_DEBUG) {
+        $sql = "
             INSERT INTO user_permission_snapshots (user_id, action_id, resource_id, resource_type_id, org_id, resource_type_version)
-                SELECT 
-                    $userID AS user_id,
-                    a.id AS action_id,
-                    r.id AS resource_id,
-                    r.resource_type_id,
-                    r.org_id,
-                    (SELECT version FROM resource_types WHERE id = r.resource_type_id) AS resource_type_version
-                FROM actions a
-                CROSS JOIN resources r;
-            ";
-
-            query($conn, $mapAllActionAndResourcesQuery);
-
-            return;
-        }
-
-        // Xóa snapshot cũ
-        deleteSnapshot($userID);
-
-        $allPermissions = [];
-        $seen = [];
-
-        // ===== B1: Quyền từ system role =====
-        $querySystemRole = "
             SELECT 
-                p.action_id,
-                p.resource_type_id,
-                rt.version AS resource_type_version
-            FROM user_system_roles usr
-            JOIN system_roles sr ON sr.id = usr.system_role_id
-            JOIN system_role_permissions srp ON srp.system_role_id = sr.id
-            JOIN permissions p ON p.id = srp.permission_id
-            JOIN resource_types rt ON rt.id = p.resource_type_id
-            WHERE usr.user_id = $userID
-        ";
-        $resultSystemRole = query($conn, $querySystemRole);
-
-        while ($row = mysqli_fetch_assoc($resultSystemRole)) {
-            $resourceTypeId = (int)$row['resource_type_id'];
-            $version        = (int)$row['resource_type_version'];
-            $baseActionId   = (int)$row['action_id'];
-
-            $actionNameRes = query($conn, "SELECT name FROM actions WHERE id = $baseActionId LIMIT 1");
-            $actionName = ($actionNameRes && mysqli_num_rows($actionNameRes) > 0) 
-                ? mysqli_fetch_assoc($actionNameRes)['name'] 
-                : '';
-            if ($actionNameRes) mysqli_free_result($actionNameRes);
-
-            if (strtolower($actionName) === 'create') {
-                // Với Create: chỉ insert một dòng (resource_id NULL, org_id NULL)
-                $allPermissions[] = [
-                    'org_id' => NULL,
-                    'action_id' => $baseActionId,
-                    'resource_id' => 'NULL',
-                    'resource_type_id' => $resourceTypeId,
-                    'resource_type_version' => $version
-                ];
-                continue;
-            }
-
-            // Các action khác → kế thừa
-            $childActions = getAllChildActions($baseActionId);
-            $allActions   = array_merge([$baseActionId], $childActions);
-
-            // Map với tất cả resources thuộc resource_type này
-            $resQuery = "SELECT id, org_id FROM resources WHERE resource_type_id = $resourceTypeId";
-            $resResult = query($conn, $resQuery);
-
-            while ($resRow = mysqli_fetch_assoc($resResult)) {
-                $resourceId = (int)$resRow['id'];
-                $orgId      = (int)$resRow['org_id'];
-                foreach ($allActions as $actionId) {
-                    $allPermissions[] = [
-                        'org_id' => $orgId,
-                        'action_id' => $actionId,
-                        'resource_id' => $resourceId,
-                        'resource_type_id' => $resourceTypeId,
-                        'resource_type_version' => $version
-                    ];
-                }
-            }
-            mysqli_free_result($resResult);
-        }
-        mysqli_free_result($resultSystemRole);
-
-        // ===== B2: Quyền từ resource role =====
-        $queryResourceRole = "
-            SELECT 
-                r.org_id,
-                ra.action_id,
+                $userID AS user_id,
+                a.id AS action_id,
                 r.id AS resource_id,
                 r.resource_type_id,
-                rt.version AS resource_type_version
-            FROM user_resources ur
-            JOIN resources r ON r.id = ur.resource_id
-            JOIN resource_role_actions ra ON ra.resource_role_id = ur.resource_role_id
-            JOIN resource_types rt ON rt.id = r.resource_type_id
-            WHERE ur.user_id = $userID
+                r.org_id,
+                (SELECT version FROM resource_types WHERE id = r.resource_type_id) AS resource_type_version
+            FROM actions a
+            CROSS JOIN resources r;
         ";
-        $resultResourceRole = query($conn, $queryResourceRole);
+        $ok = query($conn, $sql);
+        if (!$ok) {
+            error_log("buildSnapshot DEBUG insert error: " . mysqli_error($conn));
+            error_log("SQL was: $sql");
+        } else {
+            error_log("buildSnapshot DEBUG inserted by CROSS JOIN");
+        }
+        return;
+    }
 
-        while ($row = mysqli_fetch_assoc($resultResourceRole)) {
-            $orgId          = (int)$row['org_id'];
-            $resourceId     = (int)$row['resource_id'];
-            $resourceTypeId = (int)$row['resource_type_id'];
-            $version        = (int)$row['resource_type_version'];
-            $baseActionId   = (int)$row['action_id'];
+    $allPermissions = [];
+    $seen = [];
 
-            $actionNameRes = query($conn, "SELECT name FROM actions WHERE id = $baseActionId LIMIT 1");
-            $actionName = ($actionNameRes && mysqli_num_rows($actionNameRes) > 0) 
-                ? mysqli_fetch_assoc($actionNameRes)['name'] 
-                : '';
-            if ($actionNameRes) mysqli_free_result($actionNameRes);
+    // =========================
+    // B1) Quyền từ SYSTEM ROLE
+    // =========================
+    // NOTE: join thêm actions để lấy action_name, khỏi query lẻ tẻ
+    $querySystemRole = "
+        SELECT 
+            p.action_id,
+            p.resource_type_id,
+            rt.version AS resource_type_version,
+            a.name AS action_name
+        FROM user_system_roles usr
+        JOIN system_roles sr              ON sr.id = usr.system_role_id
+        JOIN system_role_permissions srp  ON srp.system_role_id = sr.id
+        JOIN permissions p                ON p.id = srp.permission_id
+        JOIN resource_types rt            ON rt.id = p.resource_type_id
+        JOIN actions a                    ON a.id = p.action_id
+        WHERE usr.user_id = $userID
+    ";
+    $rsSys = query($conn, $querySystemRole);
+    if (!$rsSys) {
+        error_log("buildSnapshot systemRole query fail: " . mysqli_error($conn));
+    } else {
+        error_log("buildSnapshot systemRole rows: " . mysqli_num_rows($rsSys));
+    }
 
-            if (strtolower($actionName) === 'create') {
-                $allPermissions[] = [
-                    'org_id' => 'NULL',
-                    'action_id' => $baseActionId,
-                    'resource_id' => 'NULL',
-                    'resource_type_id' => $resourceTypeId,
-                    'resource_type_version' => $version
-                ];
-                continue;
-            }
+    while ($row = mysqli_fetch_assoc($rsSys)) {
+        $baseActionId   = (int)$row['action_id'];
+        $resourceTypeId = (int)$row['resource_type_id'];
+        $version        = (int)$row['resource_type_version'];
+        $actionName     = strtolower(trim($row['action_name']));
 
-            $childActions = getAllChildActions($baseActionId);
-            $allActions   = array_merge([$baseActionId], $childActions);
+        if ($actionName === 'create') {
+            // Create: global theo type (resource_id NULL, org_id NULL)
+            $allPermissions[] = [
+                'action_id' => $baseActionId,
+                'resource_id' => null,
+                'resource_type_id' => $resourceTypeId,
+                'org_id' => null,
+                'resource_type_version' => $version
+            ];
+            continue;
+        }
+
+        // Kế thừa hành động con
+        $childActions = getAllChildActions($baseActionId);
+        $allActions   = array_unique(array_merge([$baseActionId], $childActions));
+
+        // Map xuống tất cả resources thuộc resource_type này
+        $resQuery = "SELECT id, org_id FROM resources WHERE resource_type_id = $resourceTypeId";
+        $resResult = query($conn, $resQuery);
+        if (!$resResult) {
+            error_log("buildSnapshot systemRole resources query fail (type=$resourceTypeId): " . mysqli_error($conn));
+            continue;
+        }
+        $resCount = mysqli_num_rows($resResult);
+        error_log("buildSnapshot systemRole map: type=$resourceTypeId resources=$resCount actions=" . count($allActions));
+
+        while ($resRow = mysqli_fetch_assoc($resResult)) {
+            $resourceId = (int)$resRow['id'];
+            $orgId      = isset($resRow['org_id']) ? (int)$resRow['org_id'] : null;
 
             foreach ($allActions as $actionId) {
                 $allPermissions[] = [
-                    'org_id' => $orgId,
-                    'action_id' => $actionId,
+                    'action_id' => (int)$actionId,
                     'resource_id' => $resourceId,
                     'resource_type_id' => $resourceTypeId,
+                    'org_id' => $orgId,
                     'resource_type_version' => $version
                 ];
             }
         }
-        mysqli_free_result($resultResourceRole);
+        mysqli_free_result($resResult);
+    }
+    if ($rsSys) mysqli_free_result($rsSys);
 
-        // ===== Lọc trùng và insert =====
-        $rowsToInsert = [];
-        foreach ($allPermissions as $perm) {
-            $actionId        = $perm['action_id'];
-            $resourceId      = ($perm['resource_id'] !== null && $perm['resource_id'] !== 'NULL') ? $perm['resource_id'] : 'NULL';
-            $resourceTypeId  = $perm['resource_type_id'];
-            $orgId           = ($perm['org_id'] !== null && $perm['org_id'] !== 'NULL') ? $perm['org_id'] : 'NULL';
-            $version         = $perm['resource_type_version'];
+    // ===========================
+    // B2) Quyền từ RESOURCE ROLE
+    // ===========================
+    $queryResourceRole = "
+        SELECT 
+            r.org_id,
+            ra.action_id,
+            r.id AS resource_id,
+            r.resource_type_id,
+            rt.version AS resource_type_version
+        FROM user_resources ur
+        JOIN resources r             ON r.id = ur.resource_id
+        JOIN resource_role_actions ra ON ra.resource_role_id = ur.resource_role_id
+        JOIN resource_types rt        ON rt.id = r.resource_type_id
+        WHERE ur.user_id = $userID
+    ";
+    $rsRes = query($conn, $queryResourceRole);
+    if (!$rsRes) {
+        error_log("buildSnapshot resourceRole query fail: " . mysqli_error($conn));
+    } else {
+        error_log("buildSnapshot resourceRole rows: " . mysqli_num_rows($rsRes));
+    }
 
-            $key = $actionId . "|" . $resourceId . "|" . $resourceTypeId . "|" . $orgId;
-            if (!isset($seen[$key])) {
-                $seen[$key] = true;
-                $rowsToInsert[] = "($userID, $actionId, $resourceId, $resourceTypeId, $orgId, $version)";
-            }
-        }
+    while ($row = mysqli_fetch_assoc($rsRes)) {
+        $baseActionId   = (int)$row['action_id'];
+        $resourceId     = (int)$row['resource_id'];
+        $resourceTypeId = (int)$row['resource_type_id'];
+        $orgId          = isset($row['org_id']) ? (int)$row['org_id'] : null;
+        $version        = (int)$row['resource_type_version'];
 
-        if (!empty($rowsToInsert)) {
-            $values = implode(",\n", $rowsToInsert);
-            $insertSQL = "
-                INSERT INTO user_permission_snapshots 
-                    (user_id, action_id, resource_id, resource_type_id, org_id, resource_type_version)
-                VALUES
-                    $values
-            ";
-            query($conn, $insertSQL);
+        // Hành động gốc
+        $allPermissions[] = [
+            'action_id' => $baseActionId,
+            'resource_id' => $resourceId,
+            'resource_type_id' => $resourceTypeId,
+            'org_id' => $orgId,
+            'resource_type_version' => $version
+        ];
+
+        // Hành động con
+        $childActions = getAllChildActions($baseActionId);
+        foreach ($childActions as $childId) {
+            $allPermissions[] = [
+                'action_id' => (int)$childId,
+                'resource_id' => $resourceId,
+                'resource_type_id' => $resourceTypeId,
+                'org_id' => $orgId,
+                'resource_type_version' => $version
+            ];
         }
     }
+    if ($rsRes) mysqli_free_result($rsRes);
+
+    // ===========================
+    // Lọc trùng & INSERT
+    // ===========================
+    $rowsToInsert = [];
+    $added = 0;
+    foreach ($allPermissions as $perm) {
+        $actionId        = (int)$perm['action_id'];
+        $resourceTypeId  = (int)$perm['resource_type_id'];
+        $version         = (int)$perm['resource_type_version'];
+
+        // NULL handling cho SQL
+        $resourceIdSql = ($perm['resource_id'] === null) ? "NULL" : (int)$perm['resource_id'];
+        $orgIdSql      = ($perm['org_id'] === null) ? "NULL" : (int)$perm['org_id'];
+
+        // Key để chống trùng
+        $key = $actionId . "|" . $resourceIdSql . "|" . $resourceTypeId . "|" . $orgIdSql;
+        if (!isset($seen[$key])) {
+            $seen[$key] = true;
+            $rowsToInsert[] = "($userID, $actionId, $resourceIdSql, $resourceTypeId, $orgIdSql, $version)";
+            $added++;
+        }
+    }
+
+    error_log("buildSnapshot collected permissions (deduped): $added");
+
+    if (!empty($rowsToInsert)) {
+        $values = implode(",\n", $rowsToInsert);
+        $insertSQL = "
+            INSERT INTO user_permission_snapshots 
+                (user_id, action_id, resource_id, resource_type_id, org_id, resource_type_version)
+            VALUES
+                $values
+        ";
+        $ok = query($conn, $insertSQL);
+        if (!$ok) {
+            error_log("buildSnapshot insert error: " . mysqli_error($conn));
+            // Cảnh báo: câu SQL có thể rất dài
+            error_log("Failing SQL (truncated 2k chars): " . substr($insertSQL, 0, 2048));
+        } else {
+            error_log("buildSnapshot inserted " . count($rowsToInsert) . " rows for user $userID");
+        }
+    } else {
+        error_log("buildSnapshot nothing to insert for user $userID");
+    }
+}
+
 
 
     function hasPermission($userID, $actionName, $resourceId = null, $resourceTypeName = null) {
-        global $conn;
-        if(defined("IS_DEBUG") && IS_DEBUG) {
-            return true;
-        }
+    global $conn;
 
-        $actionId = getActionID($actionName);
-        if ($actionId === null) {
+    if (defined("IS_DEBUG") && IS_DEBUG) {
+        return true;
+    }
+
+    $actionId = getActionID($actionName);
+    if ($actionId === null) {
+        error_log("hasPermission: action '$actionName' not found.");
+        return false;
+    }
+
+    // ===== CASE 1: Create =====
+    if (strtolower($actionName) === 'create') {
+        if (empty($resourceTypeName)) {
+            error_log("hasPermission: create action but no resourceTypeName given.");
             return false;
         }
 
-        // Nếu là action Create
-        if (strtolower($actionName) === 'create') {
-            if (empty($resourceTypeName)) {
-                return false; // Không biết đang tạo loại resource nào
-            }
-
-            $typeData = getResourceTypeByName($resourceTypeName);
-            if (!$typeData) return false;
-            $resourceTypeId = (int)$typeData['id'];
-
-            if (!checkVersionMatch($userID, $resourceTypeId)) {
-                buildSnapshot($userID);
-            }
-
-            $query = "
-                SELECT 1
-                FROM user_permission_snapshots
-                WHERE user_id = $userID
-                AND action_id = $actionId
-                AND resource_type_id = $resourceTypeId
-                LIMIT 1
-            ";
-            $result = query($conn, $query);
-            $allowed = ($result && mysqli_num_rows($result) > 0);
-            if ($result) {
-                mysqli_free_result($result);
-            }
-            return $allowed;
-        }
-
-        // Các action khác (View, Edit, Delete...) -> cần resourceId cụ thể
-        if ($resourceId === null) {
+        $typeData = getResourceTypeByName($resourceTypeName);
+        if (!$typeData) {
+            error_log("hasPermission: resourceType '$resourceTypeName' not found.");
             return false;
         }
-
-        $resource = getResource($resourceId);
-        if (!$resource) {
-            return false;
-        }
-
-        $resourceTypeId = $resource['resource_type_id'];
-        $orgId = $resource['org_id'];
+        $resourceTypeId = (int)$typeData['id'];
 
         if (!checkVersionMatch($userID, $resourceTypeId)) {
+            error_log("hasPermission: version mismatch, rebuilding snapshot for user $userID.");
             buildSnapshot($userID);
         }
 
         $query = "
-            SELECT 1 
+            SELECT 1
             FROM user_permission_snapshots
             WHERE user_id = $userID
-            AND action_id = $actionId
-            AND (
-                    resource_id = $resourceId
-                    OR (resource_type_id = $resourceTypeId AND org_id = $orgId AND resource_id IS NULL)
-                )
+              AND action_id = $actionId
+              AND resource_type_id = $resourceTypeId
             LIMIT 1
         ";
         $result = query($conn, $query);
-        $allowed = ($result && mysqli_num_rows($result) > 0);
-        if ($result) {
-            mysqli_free_result($result);
+        if (!$result) {
+            error_log("hasPermission: SQL error: " . mysqli_error($conn));
+            error_log("SQL was: $query");
+            return false;
         }
+        $allowed = (mysqli_num_rows($result) > 0);
+        mysqli_free_result($result);
+
+        error_log("hasPermission: create check for user $userID on type $resourceTypeName = " . ($allowed ? "ALLOW" : "DENY"));
         return $allowed;
     }
 
+    // ===== CASE 2: Other actions (View/Edit/Delete) =====
+    if ($resourceId === null) {
+        error_log("hasPermission: action '$actionName' requires resourceId but none given.");
+        return false;
+    }
+
+    $resource = getResource($resourceId);
+    if (!$resource) {
+        error_log("hasPermission: resource $resourceId not found.");
+        return false;
+    }
+
+    $resourceTypeId = (int)$resource['resource_type_id'];
+    $orgId = $resource['org_id'] !== null ? (int)$resource['org_id'] : "NULL";
+
+    if (!checkVersionMatch($userID, $resourceTypeId)) {
+        error_log("hasPermission: version mismatch, rebuilding snapshot for user $userID.");
+        buildSnapshot($userID);
+    }
+
+    $query = "
+        SELECT 1 
+        FROM user_permission_snapshots
+        WHERE user_id = $userID
+          AND action_id = $actionId
+          AND (
+                resource_id = $resourceId
+                OR (resource_type_id = $resourceTypeId 
+                    AND (org_id = $orgId OR org_id IS NULL) 
+                    AND resource_id IS NULL)
+              )
+        LIMIT 1
+    ";
+    $result = query($conn, $query);
+    if (!$result) {
+        error_log("hasPermission: SQL error: " . mysqli_error($conn));
+        error_log("SQL was: $query");
+        return false;
+    }
+    $allowed = (mysqli_num_rows($result) > 0);
+    mysqli_free_result($result);
+
+    error_log("hasPermission: action '$actionName' on resource $resourceId (type $resourceTypeId, org $orgId) = " . ($allowed ? "ALLOW" : "DENY"));
+    return $allowed;
+}
 
 
-    function getAccessibleResources($userID, $actionName, $resourceTypeName): array {
-        global $conn;
+function getAccessibleResources($userID, $actionName, $resourceTypeName): array {
+    global $conn;
+    $resultList = [];
 
-        $resultList = [];
+    $actionId = getActionID($actionName);
+    if ($actionId === null) {
+        error_log("getAccessibleResources: action '$actionName' not found.");
+        return $resultList;
+    }
 
-        $actionId = getActionID($actionName);
-        if ($actionId === null) return $resultList;
+    $rt = getResourceTypeByName($resourceTypeName);
+    if (!$rt) {
+        error_log("getAccessibleResources: resourceType '$resourceTypeName' not found.");
+        return $resultList;
+    }
+    $resourceTypeId = (int)$rt['id'];
 
-        $rt = getResourceTypeByName($resourceTypeName);
-        if (!$rt) return $resultList;
-        $resourceTypeId = (int)$rt['id'];
+    if (!checkVersionMatch($userID, $resourceTypeId)) {
+        error_log("getAccessibleResources: version mismatch, rebuilding snapshot for user $userID.");
+        buildSnapshot($userID);
+    }
 
-        if (defined("IS_DEBUG") && IS_DEBUG) {
-            if (!checkVersionMatch($userID, $resourceTypeId)) {
-                buildSnapshot($userID);
-            }
+    $query = "
+        SELECT DISTINCT resource_id, org_id
+        FROM user_permission_snapshots
+        WHERE user_id = $userID
+          AND action_id = $actionId
+          AND resource_type_id = $resourceTypeId
+    ";
+    $result = query($conn, $query);
+    if (!$result) {
+        error_log("getAccessibleResources: SQL error: " . mysqli_error($conn));
+        error_log("SQL was: $query");
+        return $resultList;
+    }
 
-            // TRẢ VỀ BẢN GHI TỪ RESOURCES (giống nhánh thường)
-            $sql = "
-                SELECT DISTINCT r.*
-                FROM user_permission_snapshots ups
-                JOIN resources r ON r.id = ups.resource_id
-                WHERE ups.user_id = $userID
-                AND ups.action_id = $actionId
-                AND ups.resource_type_id = $resourceTypeId
-            ";
-            $res = query($conn, $sql);
-            if ($res) {
-                while ($row = mysqli_fetch_assoc($res)) {
-                    $resultList[$row['id']] = $row;
-                }
-                mysqli_free_result($res);
-            }
-            return array_values($resultList);
-        }
-        $resultList = array();
+    $directResourceIds = [];
+    $orgScopeIds = [];
+    $hasGlobalNull = false;
 
-        $actionId = getActionID($actionName);
-        if ($actionId === null) {
-            return $resultList;
-        }
-
-        $resourceType = getResourceTypeByName($resourceTypeName);
-        if (!$resourceType) {
-            return $resultList;
-        }
-        $resourceTypeId = $resourceType['id'];
-
-        if (!checkVersionMatch($userID, $resourceTypeId)) {
-            buildSnapshot($userID);
-        }
-
-        $query = "
-            SELECT DISTINCT resource_id, org_id
-            FROM user_permission_snapshots
-            WHERE user_id = $userID
-            AND action_id = $actionId
-            AND resource_type_id = $resourceTypeId
-        ";
-        $result = query($conn, $query);
-        if (!$result) {
-            return $resultList;
-        }
-
-        $directResourceIds = array();
-        $orgScopeIds = array();
-        while ($row = mysqli_fetch_assoc($result)) {
-            if ($row['resource_id'] === null) {
-                $orgScopeIds[] = (int)$row['org_id'];
+    while ($row = mysqli_fetch_assoc($result)) {
+        if ($row['resource_id'] === null) {
+            if ($row['org_id'] === null) {
+                $hasGlobalNull = true; // toàn bộ resource_type
             } else {
-                $directResourceIds[] = (int)$row['resource_id'];
+                $orgScopeIds[] = (int)$row['org_id'];
             }
+        } else {
+            $directResourceIds[] = (int)$row['resource_id'];
         }
-        mysqli_free_result($result);
+    }
+    mysqli_free_result($result);
 
-        if (!empty($directResourceIds)) {
-            $ids = implode(',', array_unique($directResourceIds));
-            $queryDirect = "SELECT * FROM resources WHERE id IN ($ids)";
-            $resDirect = query($conn, $queryDirect);
+    // Direct resource permissions
+    if (!empty($directResourceIds)) {
+        $ids = implode(',', array_unique($directResourceIds));
+        $queryDirect = "SELECT * FROM resources WHERE id IN ($ids)";
+        $resDirect = query($conn, $queryDirect);
+        if ($resDirect) {
             while ($row = mysqli_fetch_assoc($resDirect)) {
                 $resultList[$row['id']] = $row;
             }
-            if ($resDirect) {
-                mysqli_free_result($resDirect);
-            }
+            mysqli_free_result($resDirect);
+        } else {
+            error_log("getAccessibleResources: SQL error direct fetch: " . mysqli_error($conn));
         }
+    }
 
-        if (!empty($orgScopeIds)) {
-            $orgIds = implode(',', array_unique($orgScopeIds));
-            $queryOrgScope = "
-                SELECT * FROM resources 
-                WHERE resource_type_id = $resourceTypeId AND org_id IN ($orgIds)
-            ";
-            $resOrgScope = query($conn, $queryOrgScope);
+    // Org-wide scope
+    if (!empty($orgScopeIds)) {
+        $orgIds = implode(',', array_unique($orgScopeIds));
+        $queryOrgScope = "
+            SELECT * FROM resources 
+            WHERE resource_type_id = $resourceTypeId AND org_id IN ($orgIds)
+        ";
+        $resOrgScope = query($conn, $queryOrgScope);
+        if ($resOrgScope) {
             while ($row = mysqli_fetch_assoc($resOrgScope)) {
                 $resultList[$row['id']] = $row;
             }
-            if ($resOrgScope) {
-                mysqli_free_result($resOrgScope);
-            }
+            mysqli_free_result($resOrgScope);
+        } else {
+            error_log("getAccessibleResources: SQL error org scope fetch: " . mysqli_error($conn));
         }
-
-        return array_values($resultList);
     }
+
+    // Global (org_id IS NULL → nghĩa là tất cả resource trong type này)
+    if ($hasGlobalNull) {
+        $queryGlobal = "SELECT * FROM resources WHERE resource_type_id = $resourceTypeId";
+        $resGlobal = query($conn, $queryGlobal);
+        if ($resGlobal) {
+            while ($row = mysqli_fetch_assoc($resGlobal)) {
+                $resultList[$row['id']] = $row;
+            }
+            mysqli_free_result($resGlobal);
+        } else {
+            error_log("getAccessibleResources: SQL error global fetch: " . mysqli_error($conn));
+        }
+    }
+
+    error_log("getAccessibleResources: user $userID, action '$actionName', type '$resourceTypeName' => " . count($resultList) . " resources");
+
+    return array_values($resultList);
+}
 
 ?>
