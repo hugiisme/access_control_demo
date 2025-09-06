@@ -9,7 +9,7 @@
 
     $tableName = "system_role_permissions";
     $userId = $_SESSION['user']['id'] ?? null;
-    $role_id = $_GET['role_id'] ?? null;
+    $role_id = $_GET['role_id'] ?? ($_GET['id'] ?? null);
     $group_id = $_GET['group_id'] ?? null;
     if(!$role_id) {
         echo "<h2>Vui lòng chọn vai trò để xem dữ liệu.</h2>";

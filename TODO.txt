@@ -28,6 +28,8 @@ TODO:
     Check lại phần create user
     Cần chỉnh nút delete, đang có select name, nếu là liên kết (ví dụ user_orgs) thì không có name
     Gán quyền cho system_role đang lỗi, chưa hoạt động nên gắn tạm code khác vào => thiếu system_role -> permission và user -> system_role
+FIX: 
+    Sửa lại các trang quan hệ = danh sách checkboxes
 Vấn đề:
     Tạo user mới thì nó đang không thuộc org nào => trong bảng resouces nó là null (có vde j ko?)
     Cần quyền view thì mới xem được => kể cả với permissions nó cũng cần quyền view của 1 permission cụ thể => cần quyền view của quyền view của quyền edit org thì mới xem được quyền xem quyền edit tổ chức và vân vân cứ thế loop mãi
