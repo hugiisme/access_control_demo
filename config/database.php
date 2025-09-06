@@ -1,5 +1,5 @@
 <?php
-    define("IS_DEBUG", true);
+    define("IS_DEBUG", false);
 
     // local
     // $db_server = "localhost";
