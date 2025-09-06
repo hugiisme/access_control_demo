@@ -23,7 +23,7 @@
             echo '<h2>Không thể thực hiện gán quyền cho vai trò nếu ko biết nhóm vai trò</h2>';
             exit;
         }
-        $group_id = $group_id_results['id']
+        $group_id = $group_id_results['id'];
     }
 
     if(!checkVersionMatch($userId, getResourceTypeByName('system_role_permissions')['id'])){
