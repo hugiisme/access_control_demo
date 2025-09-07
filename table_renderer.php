@@ -114,6 +114,7 @@
 
     // Render table
     function TableRenderer($result, $tableName, $buttonList = [], $reloadLink = '') {
+        global $conn;
         if (!$result || mysqli_num_rows($result) === 0) {
             return;
         }
@@ -157,7 +158,16 @@
                 if ($checkAction) {
                     $resourceType = getResourceTypeByName($tableName);
                     if ($resourceType) {
-                        $enabled = hasPermission($_SESSION['user']['id'], $checkAction, $row['id'], $tableName);
+                        $resourceTypeId = $resourceType["id"];
+                        $entity_id = $row["id"];
+                        $resourceIdQuery = "SELECT id FROM resources WHERE resource_type_id = $resourceTypeId AND entity_id = $entity_id";
+                        $resourceIdResult = query($conn, $resourceIdQuery);
+                        if(!$resourceIdResult){
+                            add_notification("error", "Không tìm thấy resource id", 4); 
+                            exit;
+                        }
+                        $resourceId = mysqli_fetch_assoc($resourceIdResult)["id"];
+                        $enabled = hasPermission($_SESSION['user']['id'], $checkAction, $resourceId, $tableName);
                     }
                 }
 
