@@ -1,82 +1,89 @@
-<?php 
-require_once __DIR__ . '/../../config/database.php';
-require_once __DIR__ . '/../../includes/notify.php';
-require_once __DIR__ . '/../../includes/access_control.php';
+<?php
+    require_once __DIR__ . '/../../config/database.php';
+    require_once __DIR__ . '/../../includes/notifications/notify.php';
+    require_once __DIR__ . '/../../includes/access_control.php';
+    require_once __DIR__ . '/../../includes/helper_function.php';
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
-if (!isset($_SESSION['user'])) {
-    add_notification("error", "Vui lòng đăng nhập để truy cập trang này.");
-    header("Location: /index.php?pageName=home");
-    exit();
-}
+    // Kiểm tra đăng nhập
+    if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) {
+        $msgType = "error";
+        $msg = "Vui lòng đăng nhập để truy cập trang này.";
+        redirect_with_message($msgType, $msg, "/index.php");
+        exit();
+    }
 
-$user = $_SESSION['user'];
-if (!$user || !isset($user['id'])) {
-    add_notification("error", "Thông tin người dùng không hợp lệ.");
-    header("Location: /index.php?pageName=home");
-    exit();
-}
-$userId = $user['id'];
+    $user = $_SESSION['user'];
+    $user_id = $user['id'];
 
-// Lấy danh sách action
-$actionQuery = "SELECT id, name FROM actions";
-$actionResult = query($conn, $actionQuery);
-if (!$actionResult) {
-    add_notification("error", "Lỗi khi lấy danh sách hành động: " . mysqli_error($conn));
-    $actionResult = [];
-}
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $action_id = $_POST['action_id'] ?? '';
+        $check_mode = $_POST['check_mode'] ?? 'resource_id';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $actionName = $_POST['action_name'] ?? '';
-    $resourceId = $_POST['resource_id'] ?? '';
-    $resourceTypeId = $_POST['resource_type_id'] ?? '';
-    $entityId = $_POST['entity_id'] ?? '';
+        // Gộp dữ liệu đầu vào từ form
+        $resource_type_id = $_POST['resource_type_id'] ?? null;
+        $resource_id = (int) $_POST['resource_id'] ?? null;
+        $entity_id = $_POST['entity_id'] ?? null; // từ content.php
 
-    $hasPermission = false;
-
-    if ($actionName) {
-        if (!empty($resourceId)) {
-            // ✅ Trường hợp 1: Check quyền theo resource_id cụ thể
-            $hasPermission = hasPermission($userId, $actionName, $resourceId, null);
-
-        } elseif (!empty($resourceTypeId) && empty($entityId)) {
-            // ✅ Trường hợp 2: Check quyền cấp resource_type (resource_id IS NULL)
-            $rtData = getResourceType($resourceTypeId);
-            if ($rtData) {
-                $hasPermission = hasPermission($userId, $actionName, null, $rtData['name']);
-            }
-
-        } elseif (!empty($resourceTypeId) && !empty($entityId)) {
-            // ✅ Trường hợp 3: Check quyền theo resource_type + entity_id
-            $rtData = getResourceType($resourceTypeId);
-            if ($rtData) {
-                $query = "
-                    SELECT 1
-                    FROM user_permission_snapshots ups
-                    JOIN resources r ON r.id = ups.resource_id
-                    WHERE user_id = $userId
-                      AND ups.action_id = " . getActionID($actionName) . "
-                      AND ups.resource_type_id = $resourceTypeId
-                      AND r.entity_id = $entityId
-                    LIMIT 1
-                ";
-                $res = query($conn, $query);
-                $hasPermission = ($res && mysqli_num_rows($res) > 0);
-                if ($res) mysqli_free_result($res);
+        if (empty($action_id)) {
+            redirect_with_message("error", "Vui lòng chọn hành động.", "/index.php?view=home");
+            exit();
+        } else {
+            $action_name = (string)mysqli_fetch_assoc(getActionByID($action_id))['name'] ?? null;
+            if (!$action_name) {
+                redirect_with_message("error", "Hành động không hợp lệ.", "/index.php?view=home");
+                exit();
             }
         }
-    }
 
-    if ($hasPermission) {
-        add_notification("success", "Bạn có quyền thực hiện hành động này.");
-    } else {
-        add_notification("error", "Bạn không có quyền thực hiện hành động này.");
-    }
+        // Validate theo mode
+        if ($check_mode === 'resource_type' && empty($resource_type_id)) {
+            redirect_with_message("error", "Vui lòng chọn Resource Type.", "/index.php?view=home");
+            exit();
+        }
 
-    header("Location: " . $_SERVER['REQUEST_URI']);
-    exit();
-}
-?>
+        if ($check_mode === 'resource_type_entity' && (empty($resource_type_id) || empty($entity_id))) {
+            redirect_with_message("error", "Vui lòng chọn Resource Type và Entity ID.", "/index.php?view=home");
+            exit();
+        }
+
+        // Điều chỉnh tham số gọi hasPermission() theo mode
+        $permission_granted = false;
+        switch ($check_mode) {
+            case 'resource_id':
+                $permission_granted = hasPermission($user_id, $action_name, $resource_id, null);
+                break;
+            case 'resource_type':
+                $permission_granted = hasPermission($user_id, $action_name, null, $resource_type_id);
+                break;
+            case 'resource_type_entity':
+                $resource_id = mysqli_fetch_assoc(getResourceByTypeAndID($resource_type_id, $entity_id))['id'] ?? null;
+                $permission_granted = hasPermission($user_id, $action_name, $resource_id, null);
+                break;
+        }
+
+        if ($permission_granted) {
+            $msgType = "info";
+            $msg = "Người dùng " . htmlspecialchars($user['name']) . " được phép thực hiện hành động '" . htmlspecialchars($action_name) . "'";
+        } else {
+            $msgType = "warning";
+            $msg = "Người dùng " . htmlspecialchars($user['name']) . " KHÔNG được phép thực hiện hành động '" . htmlspecialchars($action_name) . "'";
+        }
+
+        // Thêm thông tin chi tiết vào thông báo
+        if ($check_mode === 'resource_type') {
+            $msg .= " trên Resource Type ID " . htmlspecialchars($resource_type_id) . ".";
+        } elseif ($check_mode === 'resource_type_entity') {
+            $msg .= " trên Resource Type ID " . htmlspecialchars($resource_type_id) . " và Entity ID " . htmlspecialchars($entity_id) . ".";
+        } elseif ($check_mode === 'resource_id' && !empty($resource_id)) {
+            $msg .= " trên Resource ID " . htmlspecialchars($resource_id) . ".";
+        } else {
+            $msg .= ".";
+        }
+
+        redirect_with_message($msgType, $msg, "/index.php?view=home");
+        exit();
+    }

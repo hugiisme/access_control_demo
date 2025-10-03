@@ -1,80 +1,123 @@
-/* === Sidebar Navigation Styles === */
-
-.sidebar {
+.navbar {
     position: fixed;
     top: 0;
     left: 0;
-    width: 220px;
-    height: 100vh;
-    background-color: #fff;
-    border-right: 1px solid #e0e0e0;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    background-color: #ffffff;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid #d1d5db;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    padding: 0 20px;
+    z-index: 2000;
+    height: var(--navbar-height);
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
     justify-content: space-between;
-    z-index: 1000;
-}
-
-/* === Menu List === */
-
-.menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.menu li {
     width: 100%;
 }
 
-.menu a {
-    display: block;
-    padding: 14px 24px;
-    font-size: 15px;
-    color: #333;
+/* ==== Menu chính ==== */
+.menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 10px;
+    flex-wrap: wrap; /* Cho phép xuống hàng nếu màn hình hẹp */
+}
+
+.menu-item {
+    position: relative;
+}
+
+.menu-item > a {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 14px;
+    color: #111827;
     text-decoration: none;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    border-left: 4px solid transparent;
-}
-
-.menu a:hover {
-    background-color: #f2f2f2;
-    color: #222;
-}
-
-.menu a.active {
-    background-color: #4f46e5;
-    color: #fff;
+    font-size: 15px;
     font-weight: 500;
-    border-left: 4px solid #4338ca;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
 }
 
-.menu a.active:hover {
-    background-color: #4338ca;
+.menu-item > a:hover {
+    background-color: #f3f4f6;
 }
 
-/* === Logout Section === */
+.menu-item > a.active {
+    background-color: #dbeafe;
+    color: #1e3a8a;
+    font-weight: bold;
+}
 
-.logout-section {
-    padding: 20px;
+/* ==== Submenu ==== */
+.submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    flex-direction: column;
+    min-width: 200px;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    list-style: none;
+    margin: 0;
+    padding: 5px 0;
+    border-radius: 5px;
+    z-index: 1500;
+}
+
+.menu-item:hover > .submenu {
+    display: flex;
+}
+
+.submenu .menu-item > a {
+    padding: 8px 16px;
+    font-size: 14px;
+    white-space: nowrap;
+    color: #111827;
+}
+
+.submenu .menu-item > a:hover {
+    background-color: #f3f4f6;
+    border-radius: 0;
+}
+
+/* ==== Submenu cấp 2+ ==== */
+.submenu .submenu {
+    top: 0;
+    left: 100%;
+    margin-left: 2px;
+    border-left: 1px solid #d1d5db;
+    border-radius: 5px;
+}
+
+/* ==== Logout Section ==== */
+.logout-wrapper {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
 }
 
 .logout-button {
-    display: block;
-    width: 100%;
-    text-align: center;
-    padding: 12px 0;
-    background-color: #d9534f;
+    background-color: #ef4444;
     color: #fff;
-    font-size: 15px;
-    font-weight: bold;
-    border-radius: 6px;
+    padding: 8px 12px;
+    border-radius: 5px;
     text-decoration: none;
-    transition: background-color 0.3s ease;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
 }
 
 .logout-button:hover {
-    background-color: #c9302c;
+    background-color: #dc2626;
 }

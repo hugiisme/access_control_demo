@@ -1,0 +1,439 @@
+[2025-10-03 14:32:30] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:32:30] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:32:30] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 14:32:30] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:32:30] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:32:43] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:32:43] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:32:43] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 14:32:43] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:32:43] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:33:15] [ERROR] ❌ SQL Error: Column 'id' in field list is ambiguous
+👉 Query: SELECT id 
+                            FROM users u
+                            JOIN user_orgs uo ON uo.user_id = u.id
+                        WHERE uo.id = 1
+📅 Time: 2025-10-03 14:33:15
+-----------------------------
+
+[2025-10-03 14:33:47] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:33:47] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:33:47] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 14:33:47] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:33:47] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:33:49] [ERROR] Người dùng không tồn tại hoặc bạn không có quyền truy cập.
+[2025-10-03 14:34:00] [ERROR] Người dùng không tồn tại hoặc bạn không có quyền truy cập.
+[2025-10-03 14:34:08] [ERROR] Người dùng không tồn tại hoặc bạn không có quyền truy cập.
+[2025-10-03 14:34:40] [ERROR] Người dùng không tồn tại hoặc bạn không có quyền truy cập.
+[2025-10-03 14:34:42] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:34:42] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:34:42] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 14:34:42] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:34:42] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:34:43] [ERROR] Người dùng không tồn tại hoặc bạn không có quyền truy cập.
+[2025-10-03 14:34:50] [ERROR] Người dùng không tồn tại hoặc bạn không có quyền truy cập.
+[2025-10-03 14:47:12] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:47:13] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:47:13] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 14:47:13] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:47:13] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:47:16] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:47:16] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:47:16] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 14:47:16] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:47:16] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:47:20] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:47:20] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:47:20] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 14:47:20] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:47:20] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:47:21] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:47:21] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:47:21] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 14:47:21] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:47:21] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:49:15] [ERROR] ❌ SQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' 14)' at line 2
+👉 Query: INSERT INTO resources (name, description, org_id, resource_type_id, entity_id)
+                VALUES ('user_orgs_14', 'Resource for user_orgs ID 14', NULL, , 14)
+📅 Time: 2025-10-03 14:49:15
+-----------------------------
+
+[2025-10-03 14:49:16] [ERROR] ❌ SQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' 15)' at line 2
+👉 Query: INSERT INTO resources (name, description, org_id, resource_type_id, entity_id)
+                VALUES ('user_orgs_15', 'Resource for user_orgs ID 15', NULL, , 15)
+📅 Time: 2025-10-03 14:49:16
+-----------------------------
+
+[2025-10-03 14:50:00] [ERROR] ❌ SQL Error: Unknown column 'Array' in 'field list'
+👉 Query: INSERT INTO resources (name, description, org_id, resource_type_id, entity_id)
+                VALUES ('user_orgs_0', 'Resource for user_orgs ID 0', NULL, Array, 0)
+📅 Time: 2025-10-03 14:50:00
+-----------------------------
+
+[2025-10-03 14:50:01] [ERROR] ❌ SQL Error: Unknown column 'Array' in 'field list'
+👉 Query: INSERT INTO resources (name, description, org_id, resource_type_id, entity_id)
+                VALUES ('user_orgs_0', 'Resource for user_orgs ID 0', NULL, Array, 0)
+📅 Time: 2025-10-03 14:50:01
+-----------------------------
+
+[2025-10-03 14:50:30] [INFO] Cập nhật version cho resource_type_id: 11
+[2025-10-03 14:50:31] [INFO] Cập nhật version cho resource_type_id: 11
+[2025-10-03 14:50:34] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:50:34] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:50:34] [INFO] Version mismatch, rebuild snapshot
+[2025-10-03 14:50:34] [INFO] Building snapshot for user 1 from resource roles
+[2025-10-03 14:50:34] [INFO] Number of resource role permissions: 21
+[2025-10-03 14:50:34] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 14:50:34] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:50:34] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:50:40] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:50:40] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:50:40] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 14:50:40] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:50:40] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:52:07] [INFO] Cập nhật version cho resource_type_id: 11
+[2025-10-03 14:52:08] [INFO] Cập nhật version cho resource_type_id: 11
+[2025-10-03 14:52:12] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:52:12] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:52:12] [INFO] Version mismatch, rebuild snapshot
+[2025-10-03 14:52:12] [INFO] Building snapshot for user 1 from resource roles
+[2025-10-03 14:52:12] [INFO] Number of resource role permissions: 21
+[2025-10-03 14:52:12] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 14:52:12] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:52:12] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:57:59] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:57:59] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:57:59] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 14:57:59] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:57:59] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:58:00] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:58:00] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:58:00] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 14:58:02] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:58:02] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:58:02] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 14:58:13] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:58:13] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:58:15] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:58:15] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:58:15] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 14:58:15] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:58:15] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:58:35] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:58:35] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:58:35] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 14:58:35] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:58:35] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 14:58:46] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:58:46] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:58:47] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:58:47] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:58:47] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:58:47] [INFO] hasPermission: check for user 1 on resource_id 2 or type_id 2 = ALLOW
+[2025-10-03 14:58:47] [INFO] hasPermission: check for user 1 on resource_id 2 or type_id 2 = ALLOW
+[2025-10-03 14:58:47] [INFO] hasPermission: check for user 1 on resource_id 259 or type_id 2 = ALLOW
+[2025-10-03 14:58:47] [INFO] hasPermission: check for user 1 on resource_id 259 or type_id 2 = ALLOW
+[2025-10-03 14:58:47] [INFO] hasPermission: check for user 1 on resource_id 262 or type_id 2 = ALLOW
+[2025-10-03 14:58:47] [INFO] hasPermission: check for user 1 on resource_id 262 or type_id 2 = ALLOW
+[2025-10-03 14:58:47] [INFO] hasPermission: check for user 1 on resource_id 260 or type_id 2 = ALLOW
+[2025-10-03 14:58:47] [INFO] hasPermission: check for user 1 on resource_id 260 or type_id 2 = ALLOW
+[2025-10-03 14:58:47] [INFO] hasPermission: check for user 1 on resource_id 261 or type_id 2 = ALLOW
+[2025-10-03 14:58:47] [INFO] hasPermission: check for user 1 on resource_id 261 or type_id 2 = ALLOW
+[2025-10-03 14:58:47] [INFO] hasPermission: check for user 1 on resource_id 263 or type_id 2 = ALLOW
+[2025-10-03 14:58:47] [INFO] hasPermission: check for user 1 on resource_id 263 or type_id 2 = ALLOW
+[2025-10-03 14:58:47] [INFO] hasPermission: check for user 1 on resource_id 264 or type_id 2 = ALLOW
+[2025-10-03 14:58:47] [INFO] hasPermission: check for user 1 on resource_id 264 or type_id 2 = ALLOW
+[2025-10-03 14:58:47] [INFO] hasPermission: check for user 1 on resource_id 265 or type_id 2 = ALLOW
+[2025-10-03 14:58:47] [INFO] hasPermission: check for user 1 on resource_id 265 or type_id 2 = ALLOW
+[2025-10-03 14:58:48] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:58:48] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:58:48] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:58:48] [INFO] hasPermission: check for user 1 on resource_id 259 or type_id 2 = ALLOW
+[2025-10-03 14:58:48] [INFO] hasPermission: check for user 1 on resource_id 259 or type_id 2 = ALLOW
+[2025-10-03 14:58:48] [INFO] hasPermission: check for user 1 on resource_id 262 or type_id 2 = ALLOW
+[2025-10-03 14:58:48] [INFO] hasPermission: check for user 1 on resource_id 262 or type_id 2 = ALLOW
+[2025-10-03 14:58:49] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:58:49] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:58:49] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:58:49] [INFO] hasPermission: check for user 1 on resource_id 260 or type_id 2 = ALLOW
+[2025-10-03 14:58:49] [INFO] hasPermission: check for user 1 on resource_id 260 or type_id 2 = ALLOW
+[2025-10-03 14:58:49] [INFO] hasPermission: check for user 1 on resource_id 261 or type_id 2 = ALLOW
+[2025-10-03 14:58:49] [INFO] hasPermission: check for user 1 on resource_id 261 or type_id 2 = ALLOW
+[2025-10-03 14:58:53] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:58:53] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:58:53] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:58:55] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:58:55] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:58:55] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:58:55] [INFO] hasPermission: check for user 1 on resource_id 259 or type_id 2 = ALLOW
+[2025-10-03 14:58:55] [INFO] hasPermission: check for user 1 on resource_id 259 or type_id 2 = ALLOW
+[2025-10-03 14:58:55] [INFO] hasPermission: check for user 1 on resource_id 262 or type_id 2 = ALLOW
+[2025-10-03 14:58:55] [INFO] hasPermission: check for user 1 on resource_id 262 or type_id 2 = ALLOW
+[2025-10-03 14:59:20] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:59:20] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:59:20] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:59:20] [INFO] hasPermission: check for user 1 on resource_id 260 or type_id 2 = ALLOW
+[2025-10-03 14:59:20] [INFO] hasPermission: check for user 1 on resource_id 260 or type_id 2 = ALLOW
+[2025-10-03 14:59:20] [INFO] hasPermission: check for user 1 on resource_id 261 or type_id 2 = ALLOW
+[2025-10-03 14:59:20] [INFO] hasPermission: check for user 1 on resource_id 261 or type_id 2 = ALLOW
+[2025-10-03 14:59:21] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:59:21] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:59:21] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:59:27] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:59:27] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:59:27] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:59:27] [INFO] hasPermission: check for user 1 on resource_id 260 or type_id 2 = ALLOW
+[2025-10-03 14:59:27] [INFO] hasPermission: check for user 1 on resource_id 260 or type_id 2 = ALLOW
+[2025-10-03 14:59:27] [INFO] hasPermission: check for user 1 on resource_id 261 or type_id 2 = ALLOW
+[2025-10-03 14:59:27] [INFO] hasPermission: check for user 1 on resource_id 261 or type_id 2 = ALLOW
+[2025-10-03 14:59:39] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:59:39] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:59:41] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:59:41] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:59:41] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 3
+[2025-10-03 14:59:41] [INFO] hasPermission: check for user 1 on resource_id 3 or type_id 3 = ALLOW
+[2025-10-03 14:59:41] [INFO] hasPermission: check for user 1 on resource_id 3 or type_id 3 = ALLOW
+[2025-10-03 14:59:41] [INFO] hasPermission: check for user 1 on resource_id 266 or type_id 3 = ALLOW
+[2025-10-03 14:59:41] [INFO] hasPermission: check for user 1 on resource_id 266 or type_id 3 = ALLOW
+[2025-10-03 14:59:41] [INFO] hasPermission: check for user 1 on resource_id 267 or type_id 3 = ALLOW
+[2025-10-03 14:59:41] [INFO] hasPermission: check for user 1 on resource_id 267 or type_id 3 = ALLOW
+[2025-10-03 14:59:42] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:59:42] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:59:42] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 3
+[2025-10-03 14:59:42] [INFO] hasPermission: check for user 1 on resource_id 3 or type_id 3 = ALLOW
+[2025-10-03 14:59:42] [INFO] hasPermission: check for user 1 on resource_id 3 or type_id 3 = ALLOW
+[2025-10-03 14:59:42] [INFO] hasPermission: check for user 1 on resource_id 266 or type_id 3 = ALLOW
+[2025-10-03 14:59:42] [INFO] hasPermission: check for user 1 on resource_id 266 or type_id 3 = ALLOW
+[2025-10-03 14:59:42] [INFO] hasPermission: check for user 1 on resource_id 267 or type_id 3 = ALLOW
+[2025-10-03 14:59:42] [INFO] hasPermission: check for user 1 on resource_id 267 or type_id 3 = ALLOW
+[2025-10-03 14:59:43] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:59:43] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:59:43] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 3
+[2025-10-03 14:59:44] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:59:44] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:59:44] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 3
+[2025-10-03 14:59:44] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:59:44] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:59:44] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 3
+[2025-10-03 14:59:45] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:59:45] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:59:45] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 3
+[2025-10-03 14:59:45] [INFO] hasPermission: check for user 1 on resource_id 3 or type_id 3 = ALLOW
+[2025-10-03 14:59:45] [INFO] hasPermission: check for user 1 on resource_id 3 or type_id 3 = ALLOW
+[2025-10-03 14:59:45] [INFO] hasPermission: check for user 1 on resource_id 266 or type_id 3 = ALLOW
+[2025-10-03 14:59:45] [INFO] hasPermission: check for user 1 on resource_id 266 or type_id 3 = ALLOW
+[2025-10-03 14:59:45] [INFO] hasPermission: check for user 1 on resource_id 267 or type_id 3 = ALLOW
+[2025-10-03 14:59:45] [INFO] hasPermission: check for user 1 on resource_id 267 or type_id 3 = ALLOW
+[2025-10-03 14:59:53] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 14:59:53] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 14:59:53] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 3
+[2025-10-03 14:59:53] [INFO] hasPermission: check for user 1 on resource_id 3 or type_id 3 = ALLOW
+[2025-10-03 14:59:53] [INFO] hasPermission: check for user 1 on resource_id 3 or type_id 3 = ALLOW
+[2025-10-03 14:59:53] [INFO] hasPermission: check for user 1 on resource_id 266 or type_id 3 = ALLOW
+[2025-10-03 14:59:53] [INFO] hasPermission: check for user 1 on resource_id 266 or type_id 3 = ALLOW
+[2025-10-03 14:59:53] [INFO] hasPermission: check for user 1 on resource_id 267 or type_id 3 = ALLOW
+[2025-10-03 14:59:53] [INFO] hasPermission: check for user 1 on resource_id 267 or type_id 3 = ALLOW
+[2025-10-03 15:00:03] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:00:03] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 15:00:03] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 3
+[2025-10-03 15:00:03] [INFO] hasPermission: check for user 1 on resource_id 3 or type_id 3 = ALLOW
+[2025-10-03 15:00:03] [INFO] hasPermission: check for user 1 on resource_id 3 or type_id 3 = ALLOW
+[2025-10-03 15:00:03] [INFO] hasPermission: check for user 1 on resource_id 266 or type_id 3 = ALLOW
+[2025-10-03 15:00:03] [INFO] hasPermission: check for user 1 on resource_id 266 or type_id 3 = ALLOW
+[2025-10-03 15:00:03] [INFO] hasPermission: check for user 1 on resource_id 267 or type_id 3 = ALLOW
+[2025-10-03 15:00:03] [INFO] hasPermission: check for user 1 on resource_id 267 or type_id 3 = ALLOW
+[2025-10-03 15:01:20] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:01:20] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 15:10:03] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:10:03] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 8
+[2025-10-03 15:10:03] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 15:10:03] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:10:03] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:12:46] [INFO] Version mismatch, rebuild snapshot
+[2025-10-03 15:12:46] [INFO] Building snapshot for user 1 from resource roles
+[2025-10-03 15:12:46] [INFO] Number of resource role permissions: 0
+[2025-10-03 15:12:46] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:12:46] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:12:46] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 15:12:46] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:12:46] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:12:46] [WARNING] Cần khai báo resource_id để kiểm tra quyền trực tiếp
+[2025-10-03 15:12:46] [INFO] hasPermission: check for user 1 on resource_id  or type_id 1 = ALLOW
+[2025-10-03 15:12:46] [WARNING] Action create không thể thực hiện trên resource cụ thể
+[2025-10-03 15:12:47] [INFO] hasPermission: check for user 1 on resource_id  or type_id 1 = ALLOW
+[2025-10-03 15:12:49] [WARNING] Cần khai báo resource_id để kiểm tra quyền trực tiếp
+[2025-10-03 15:12:49] [INFO] hasPermission: check for user 1 on resource_id  or type_id 1 = ALLOW
+[2025-10-03 15:12:49] [WARNING] Action create không thể thực hiện trên resource cụ thể
+[2025-10-03 15:12:49] [INFO] hasPermission: check for user 1 on resource_id  or type_id 1 = ALLOW
+[2025-10-03 15:12:49] [INFO] Cập nhật version cho resource_type_id: 1
+[2025-10-03 15:12:49] [SUCCESS] Thêm dữ liệu thành công.
+[2025-10-03 15:12:49] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:12:49] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:12:49] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 15:12:49] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:12:49] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:12:52] [INFO] Cập nhật version cho resource_type_id: 11
+[2025-10-03 15:12:55] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:12:55] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:12:55] [INFO] Version mismatch, rebuild snapshot
+[2025-10-03 15:12:55] [INFO] Building snapshot for user 1 from resource roles
+[2025-10-03 15:12:55] [INFO] Number of resource role permissions: 1
+[2025-10-03 15:12:55] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 15:12:55] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:12:55] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:17:09] [INFO] Version mismatch, rebuild snapshot
+[2025-10-03 15:17:09] [INFO] Building snapshot for user 1 from resource roles
+[2025-10-03 15:17:09] [INFO] Number of resource role permissions: 0
+[2025-10-03 15:17:09] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:17:09] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:17:09] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 15:17:09] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:17:09] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:17:10] [WARNING] Cần khai báo resource_id để kiểm tra quyền trực tiếp
+[2025-10-03 15:17:10] [INFO] hasPermission: check for user 1 on resource_id  or type_id 1 = ALLOW
+[2025-10-03 15:17:10] [WARNING] Action create không thể thực hiện trên resource cụ thể
+[2025-10-03 15:17:10] [INFO] hasPermission: check for user 1 on resource_id  or type_id 1 = ALLOW
+[2025-10-03 15:17:12] [WARNING] Cần khai báo resource_id để kiểm tra quyền trực tiếp
+[2025-10-03 15:17:12] [INFO] hasPermission: check for user 1 on resource_id  or type_id 1 = ALLOW
+[2025-10-03 15:17:12] [WARNING] Action create không thể thực hiện trên resource cụ thể
+[2025-10-03 15:17:12] [INFO] hasPermission: check for user 1 on resource_id  or type_id 1 = ALLOW
+[2025-10-03 15:17:12] [INFO] Cập nhật version cho resource_type_id: 1
+[2025-10-03 15:17:12] [SUCCESS] Thêm dữ liệu thành công.
+[2025-10-03 15:17:12] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:17:12] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:17:12] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 15:17:12] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:17:12] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:17:55] [ERROR] ❌ SQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+👉 Query: DELETE FROM user_orgs WHERE id = 
+📅 Time: 2025-10-03 15:17:55
+-----------------------------
+
+[2025-10-03 15:18:27] [INFO] Version mismatch, rebuild snapshot
+[2025-10-03 15:18:27] [INFO] Building snapshot for user 1 from resource roles
+[2025-10-03 15:18:27] [INFO] Number of resource role permissions: 0
+[2025-10-03 15:18:27] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:18:27] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:18:27] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 15:18:27] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:18:27] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:18:29] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:18:29] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:18:29] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 15:18:29] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:18:29] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:18:32] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:18:32] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:18:32] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 15:18:32] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:18:32] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:18:33] [WARNING] Cần khai báo resource_id để kiểm tra quyền trực tiếp
+[2025-10-03 15:18:33] [INFO] hasPermission: check for user 1 on resource_id  or type_id 1 = ALLOW
+[2025-10-03 15:18:33] [WARNING] Action create không thể thực hiện trên resource cụ thể
+[2025-10-03 15:18:33] [INFO] hasPermission: check for user 1 on resource_id  or type_id 1 = ALLOW
+[2025-10-03 15:18:35] [WARNING] Cần khai báo resource_id để kiểm tra quyền trực tiếp
+[2025-10-03 15:18:35] [INFO] hasPermission: check for user 1 on resource_id  or type_id 1 = ALLOW
+[2025-10-03 15:18:35] [WARNING] Action create không thể thực hiện trên resource cụ thể
+[2025-10-03 15:18:35] [INFO] hasPermission: check for user 1 on resource_id  or type_id 1 = ALLOW
+[2025-10-03 15:18:35] [INFO] Cập nhật version cho resource_type_id: 1
+[2025-10-03 15:18:35] [SUCCESS] Thêm dữ liệu thành công.
+[2025-10-03 15:18:35] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:18:35] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:18:35] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 15:18:35] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:18:35] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:18:44] [INFO] Cập nhật version cho resource_type_id: 11
+[2025-10-03 15:19:11] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:19:11] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:19:11] [INFO] Version mismatch, rebuild snapshot
+[2025-10-03 15:19:11] [INFO] Building snapshot for user 1 from resource roles
+[2025-10-03 15:19:11] [INFO] Number of resource role permissions: 1
+[2025-10-03 15:19:11] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 11
+[2025-10-03 15:19:11] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:19:11] [INFO] hasPermission: check for user 1 on resource_id 258 or type_id 11 = ALLOW
+[2025-10-03 15:19:11] [INFO] hasPermission: check for user 1 on resource_id 260 or type_id 11 = ALLOW
+[2025-10-03 15:19:11] [INFO] hasPermission: check for user 1 on resource_id 260 or type_id 11 = ALLOW
+[2025-10-03 15:43:12] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:12] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:43:13] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:13] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:43:14] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:14] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:43:15] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:15] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:43:16] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:16] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:43:17] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:17] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:43:19] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:19] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:43:19] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:19] [INFO] hasPermission: check for user 1 on resource_id 2 or type_id 2 = ALLOW
+[2025-10-03 15:43:19] [INFO] hasPermission: check for user 1 on resource_id 2 or type_id 2 = ALLOW
+[2025-10-03 15:43:20] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:20] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:43:21] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:21] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:43:22] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:22] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:43:23] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:23] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:43:24] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:24] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:43:25] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:25] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:43:27] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:27] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:43:27] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:27] [INFO] hasPermission: check for user 1 on resource_id 2 or type_id 2 = ALLOW
+[2025-10-03 15:43:27] [INFO] hasPermission: check for user 1 on resource_id 2 or type_id 2 = ALLOW
+[2025-10-03 15:43:35] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:35] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:43:36] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:43:36] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:43:36] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 3
+[2025-10-03 15:43:36] [INFO] hasPermission: check for user 1 on resource_id 3 or type_id 3 = ALLOW
+[2025-10-03 15:43:36] [INFO] hasPermission: check for user 1 on resource_id 3 or type_id 3 = ALLOW
+[2025-10-03 15:45:05] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:45:05] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:45:06] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:45:06] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:45:08] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:45:08] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:45:09] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:45:09] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:45:12] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:45:12] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:45:30] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:45:30] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:45:31] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:45:31] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:45:32] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:45:32] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:45:34] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:45:34] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:45:34] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:45:34] [INFO] hasPermission: check for user 1 on resource_id 2 or type_id 2 = ALLOW
+[2025-10-03 15:45:34] [INFO] hasPermission: check for user 1 on resource_id 2 or type_id 2 = ALLOW
+[2025-10-03 15:45:34] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:45:34] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:45:35] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:45:35] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:45:35] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:45:35] [INFO] hasPermission: check for user 1 on resource_id 2 or type_id 2 = ALLOW
+[2025-10-03 15:45:35] [INFO] hasPermission: check for user 1 on resource_id 2 or type_id 2 = ALLOW
+[2025-10-03 15:45:36] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:45:36] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:45:38] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:45:38] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:45:39] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:45:39] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:45:40] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:45:40] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:46:25] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:46:25] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:46:28] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:46:28] [INFO] Số lượng tổ chức user 1 có quyền truy cập: 1
+[2025-10-03 15:46:28] [INFO] Querying accessible resources for user 1, action_id 1, resource_type_id 2
+[2025-10-03 15:46:28] [INFO] hasPermission: check for user 1 on resource_id 2 or type_id 2 = ALLOW
+[2025-10-03 15:46:28] [INFO] hasPermission: check for user 1 on resource_id 2 or type_id 2 = ALLOW

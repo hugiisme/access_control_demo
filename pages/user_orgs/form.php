@@ -1,158 +1,70 @@
-<?php
-    include __DIR__ . "/../../config/database.php";
-    include __DIR__ . "/../../includes/notify.php";
-    include __DIR__ . "/../../includes/access_control.php";
-    include __DIR__ . "/../../includes/manage_resource.php";
-    include __DIR__ . "/../../includes/helper_functions.php";
+<link rel="stylesheet" href="../../assets/css/form.css">
+<?php 
+    include_once __DIR__ . "/../../config/database.php";
+    include_once __DIR__ . "/../../includes/access_control.php";
+    include_once __DIR__ . "/../../includes/resource_manager.php";
+    include_once __DIR__ . "/../../includes/query_helper.php";
+    include_once __DIR__ . "/../../includes/form/FormBuilder.php";
+    include_once __DIR__ . "/../../includes/form/form_helper.php";
 
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
 
+    $table_name = "users";
+    $resource_type = getResourceTypeByName($table_name);
+    $resource_type_id = (int)mysqli_fetch_assoc($resource_type)['id'];
+
+    $userId = $_SESSION['user']['id'] ?? null;
+    if (!$userId) {
+        redirect_with_message("warning", "Vui lòng đăng nhập để xem dữ liệu.");
+        exit;
+    }
+    $mode = isset($_GET['row_id']) && is_numeric($_GET['row_id']) ? "edit" : "create";
+    $row_id = ($mode == "edit") ? intval($_GET['row_id']) : null;
+
     
-    $redirectLink = $_GET['redirectLink'] ?? '/index.php';
-    $mode = isset($_GET['id']) ? 'edit' : 'create';
-    $resourceTypeName = 'users';
-    $resourceTypeId = getResourceTypeByName($resourceTypeName)['id'];
 
-    function createHandler($redirectLink, $resourceTypeId){
-        global $conn;
-
-        if(!hasPermission($_SESSION['user']['id'], 'Create', null, 'users')) {
-            redirectWithError("Bạn không có quyền truy cập vào trang này.", $redirectLink);
-        }
-        $label = "Tạo người dùng mới";
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $user_name = $_POST["user_name"];
-            $org_id = isset($_POST["org_id"]) && $_POST["org_id"] !== '' ? (int)$_POST["org_id"] : "NULL";
-
-            // Bước 1: insert
-            $insertQuery = "INSERT INTO users (name) 
-                            VALUES ('$user_name')";
-
-            if (!query($conn, $insertQuery)) {
-                redirectWithError("Lỗi khi tạo người dùng mới: " . mysqli_error($conn), $redirectLink);
-            }
-            $newUserResource = mysqli_insert_id($conn);
-
-            // insert vào user_orgs
-            $insertIntoUserOrgs = "INSERT INTO user_orgs (user_id, org_id) VALUES (". mysqli_insert_id($conn) .", $org_id)";
-            if (!query($conn, $insertIntoUserOrgs)) {
-                redirectWithError("Lỗi khi gán tổ chức cho người dùng mới: " . mysqli_error($conn), $redirectLink);
-            }
-            $newUserOrgResource = mysqli_insert_id($conn);
-
-            // Bước 2: tạo resource 
-            
-            createResource($user_name, "Resource for $user_name", null, $resourceTypeId, $newUserResource);
-
-            // tạo resource cho user_orgs
-            createResource("user_orgs_". $newUserOrgResource, "Resource for user_orgs_". $newUserOrgResource, null, getResourceTypeByName('user_orgs')['id'], $newUserOrgResource);
-            
-            // Bước 3: update version
-            updateResourceTypeVersion($resourceTypeId);
-            updateResourceTypeVersion(getResourceTypeByName('user_orgs')['id']);
-
-            // Bước 4: gắn quan hệ người tạo
-            // TODO
-
-            
-
-            add_notification("success", "Tạo người dùng mới thành công", 4000);
-            header("Location: $redirectLink");
+    if($mode == "edit"){
+        $real_id_query = "SELECT u.id
+                            FROM users u
+                            JOIN user_orgs uo ON uo.user_id = u.id
+                        WHERE uo.id = $row_id";
+        $real_id_result = query($real_id_query);
+        $real_id = mysqli_fetch_assoc($real_id_result)['id'] ?? null;
+        $resource = getResourceByTypeAndID($resource_type_id, $real_id);
+        $resource_id = mysqli_fetch_assoc($resource)['id'] ?? null;
+        if(!$resource_id){
+            redirect_with_message("error", "Người dùng không tồn tại hoặc bạn không có quyền truy cập.");
             exit;
         }
-        return [$label, null];
+    } else {
+        $real_id = null;
+        $resource_id = null;
     }
 
-    function editHandler($redirectLink, $resourceTypeId) {
-        global $conn;
-
-        $user_id = $_GET['id'] ?? null;
-          
-        if ($user_id) {
-            if(!hasPermission($_SESSION['user']['id'], 'Create', $user_id, 'users')) {
-                redirectWithError("Bạn không có quyền truy cập vào trang này.", $redirectLink);
-            }
-
-            $query = "SELECT * FROM users WHERE id = $user_id";
-            $result = query($conn, $query);
-            if ($result && mysqli_num_rows($result) > 0) {
-                $user = mysqli_fetch_assoc($result);
-                $label = "Chỉnh sửa người dùng ". $user['name'];
-            } else {
-                add_notification("error", "System role not found", 4000);
-                exit;
-            }
-        } else {
-            add_notification("error", "Invalid System role group ID", 4000);
-            exit;
-        }
-
-        if($_SERVER['REQUEST_METHOD'] == "POST"){
-            $user_name = $_POST["user_name"];
-
-            // Bước 1: update
-            $updateQuery =  "UPDATE users SET 
-                                name = '$user_name'
-                            WHERE id = $user_id";
-
-            if (! query($conn, $updateQuery)) {
-                redirectWithError("Lỗi khi cập nhật người dùng: " . mysqli_error($conn), $redirectLink);
-            }
-
-            // Bước 2: cập nhật resource tương ứng
-            $resourceId = getResourceId($resourceTypeId, $user_id);
-            updateResource($resourceId, $user_name, null, 1, $resourceTypeId, $user_id);
-
-            // Bước 3: update version
-            updateResourceTypeVersion($resourceTypeId);
-
-            // Bước 4: gắn quan hệ người edit
-            // TODO
-
-            add_notification("success", "Update người dùng $user_name thành công", 4000);
-            header("Location: $redirectLink");
-            exit;
-        }
-
-        return [$label, $user];
+    $canEdit = hasPermission($userId, 'edit', $resource_id, $resource_type_id);
+    $canCreate = hasPermission($userId, 'create', $resource_id, $resource_type_id);
+    if ($mode == "edit" && !$canEdit) {
+       redirect_with_message("error", "Bạn không có quyền chỉnh sửa người dùng này.");
+        exit;
     }
-
-
-    if ($mode === 'create') {
-        [$label, $user] = createHandler($redirectLink, $resourceTypeId);
-    } else if ($mode === 'edit') {
-        [$label, $user] = editHandler($redirectLink, $resourceTypeId);
+    if ($mode == "create" && !$canCreate) {
+        redirect_with_message("error", "Bạn không có quyền tạo người dùng mới.");
+        exit;
     }
+    $formTitle = ($mode == "edit") ? "Chỉnh sửa người dùng" : "Tạo người dùng mới";
+    $formAction = ($mode == "edit") ? "update" : "create";
+    
+    $form = new FormBuilder($conn, $formTitle, $table_name, $real_id);
 
+    // TODO: fix
+    // Với edit, không được chọn chính nó
+    $form->addField('text', 'name', 'Tên người dùng');
+    if(isset($_POST['submit'])) {
+        $_POST["org_id"] = isset($_GET["org_id"]) ? intval($_GET["org_id"]) : null;
+        $form->handleSubmit();
+    }
+    
+    $form->render();
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $label ?></title>
-    <link rel="stylesheet" href="../../assets/css/form.css">
-</head>
-<body>
-    <form action="" method="POST" class="form">
-        <h1 class="page-title"><?php echo $label ?></h1>
-
-        <div class="form-group">
-            <label for="user-name">Tên người dùng</label>
-            <input type="text" name="user_name" id="user-name" class="input-text"
-                <?php if (isset($user)) echo "value='" . $user["name"] . "'"; ?>>
-        </div>
-
-        <input type="hidden" name="org_id" value="<?php echo $_GET['org_id'] ?? '' ?>">
-
-        <div class="form-buttons">
-            <button type="button" onclick="location.href='<?php echo $redirectLink ?>'" class="button-cancel">Hủy</button>
-            <input type="submit" value="<?= $mode === 'edit' ? 'Cập nhật' : 'Thêm' ?>" class="button-submit">
-        </div>
-    </form>
-
-</body>
-</html>

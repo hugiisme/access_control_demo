@@ -1,0 +1,28 @@
+:root {
+    --sidebar-width: 350px;
+    --navbar-height: 60px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #ffffff;
+    display: block; /* bỏ flex, để main-content full width */
+}
+
+.main-content {
+    margin-top: var(--navbar-height); /* đẩy xuống dưới navbar */
+    margin-left: 30px;
+    padding: 1rem;
+    transition: margin-left 0.3s ease;
+}
+
+.main-content.active {
+    margin-left: calc(var(--sidebar-width) + 30px);
+}

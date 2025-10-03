@@ -12,8 +12,6 @@
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid black;
-    border-radius: 8px;
     background-color: #f9f9f9;
 }
 
@@ -77,6 +75,7 @@
     flex-wrap: wrap;
     gap: 8px;
 }
+
 .tag {
     background-color: #e2e8f0;
     border-radius: 16px;
@@ -85,6 +84,7 @@
     align-items: center;
     font-size: 14px;
 }
+
 .remove-tag {
     margin-left: 8px;
     background: none;
@@ -93,6 +93,45 @@
     font-weight: bold;
     color: #e53e3e;
 }
+
 .remove-tag:hover {
     color: #c53030;
+}
+
+/* ============================
+   MATRIX TABLE STYLES
+   ============================ */
+.matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.matrix-table th,
+.matrix-table td {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    text-align: center;
+}
+
+.matrix-table th {
+    background-color: #f4f6f8;
+    font-weight: 600;
+}
+
+.matrix-table tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.matrix-table tr:hover {
+    background-color: #f1f7ff;
+}
+
+.matrix-table input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
 }

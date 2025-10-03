@@ -1,42 +1,75 @@
-/* Form wrapper */
-#permission-form {
-    max-width: 500px;
+/* User box */
+.user-box {
+    background: #fffdfa; /* trắng kem rất nhẹ */
+    border: 1.5px solid #d6d1c8; /* đậm hơn */
+    border-radius: 12px;
+    padding: 18px 22px;
+    max-width: 420px;
     margin: 20px auto;
-    padding: 20px;
-    background: #f5f8fa;
-    border: 1px solid black;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); /* đậm và rõ hơn */
+    font-family: Arial, sans-serif;
+}
+
+.user-box p {
+    margin: 6px 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1f1f1f;
+}
+
+/* Permission form */
+#permission-form {
+    max-width: 520px;
+    margin: 25px auto;
+    padding: 24px 26px;
+    background: #fffdfa;
+    border: 1.5px solid #d6d1c8; /* đậm hơn */
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); /* đậm và rõ hơn */
     font-family: Arial, sans-serif;
 }
 
 /* Title */
 #permission-form h1 {
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 18px;
+    font-size: 20px;
+    color: #222;
+    font-weight: 600;
 }
 
 /* Form groups */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 16px;
+    transition: all 0.2s ease-in-out;
 }
 
 /* Label */
 .form-group label {
     display: block;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
+    color: #333;
 }
 
 /* Input & select */
 .input-number,
 .input-select {
     width: 100%;
-    padding: 8px 10px;
-    border-radius: 6px;
-    border: 1px solid black;
-    font-size: 14px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1.5px solid #b5afa7; /* viền rõ hơn */
+    font-size: 15px;
     box-sizing: border-box;
+    background: #fffdfa; /* cùng tông user-box */
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-number:focus,
+.input-select:focus {
+    border-color: #d68a2b; /* đậm hơn để nổi bật */
+    box-shadow: 0 0 6px rgba(214, 138, 43, 0.6);
+    outline: none;
 }
 
 /* Radio buttons */
@@ -49,22 +82,22 @@
     text-align: center;
 }
 
-.button-submit {
-    background-color: #5cb85c;
-    color: white;
-    padding: 10px 18px;
+#permission-form .home-button-submit {
+    background-color: #5cb85c; /* vàng cam nhẹ */
+    color: #fff;
+    padding: 12px 20px;
     border: none;
-    border-radius: 6px;
-    font-size: 14px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2); /* đậm hơn để nút nổi */
+    width: 100%;
 }
 
-.button-submit:hover {
+#permission-form .home-button-submit:hover {
     background-color: #449d44;
-}
-
-/* Animation khi hiện/ẩn */
-.form-group {
-    transition: all 0.2s ease-in-out;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
 }

@@ -1,13 +1,17 @@
 <?php 
-    require_once "table_renderer.php";
-    require_once "config/database.php";
-    require_once "includes/access_control.php";
+    require_once __DIR__ . "/../../includes/table_renderer.php";
+    require_once __DIR__ . "/../../config/database.php";
+    require_once __DIR__ . "/../../includes/access_control.php";
+    require_once __DIR__ . "/../../includes/notifications/notify.php";
+    require_once __DIR__ . "/../../includes/helper_function.php";
+    require_once __DIR__ . "/../../includes/query_helper.php";
+
 
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
 
-    $tableName = "organizations";
+    $table_name = "organizations";
     $userId = $_SESSION['user']['id'] ?? null;
 
     if (!$userId) {
@@ -16,117 +20,93 @@
     }
 
     // Lấy danh sách resource mà user có quyền View (truyền tên, không truyền ID)
-    $accessibleResources = getAccessibleResources($userId, 'View', 'organizations');
+    $action_id = mysqli_fetch_assoc(getActionByName('View'))['id'] ?? null;
+    $resource_type_id = mysqli_fetch_assoc(getResourceTypeByName($table_name))['id'] ?? null;
+    $accessibleResources = getAccesibleResources($userId, $action_id, $resource_type_id);
 
     if (!empty($accessibleResources)) {
         $entityIds = array_column($accessibleResources, 'entity_id');
         if (!empty($entityIds)) {
             $entityIdList = implode(',', $entityIds);
-
+            // TODO: fix
+            // LEFT JOIN user_orgs uo ON uo.org_id = o.id AND uo.user_id = $userId để xác định người dùng có phải thành viên tổ chức không
+            // Nhưng khi tạo tổ chức mới thì người dùng là creator chưa chắc đã là thành viên tổ chức đó
+            // Tạm đang để LEFT JOIN 
             $query = "SELECT 
                     o.id AS id, 
                     o.name AS 'Tên tổ chức',
                     org.name AS 'Tên tổ chức cha',
-                    o.org_level AS 'Cấp độ tổ chức',
+                    ol.name AS 'Cấp độ tổ chức',
                     ot.name AS 'Loại tổ chức'
                 FROM organizations o
                 LEFT JOIN organizations org ON o.parent_org_id = org.id
                 LEFT JOIN org_types ot ON ot.id = o.org_type_id
-                JOIN user_orgs uo ON uo.org_id = o.id AND uo.user_id = $userId
+                LEFT JOIN user_orgs uo ON uo.org_id = o.id AND uo.user_id = $userId
+                JOIN org_levels ol ON o.org_level = ol.id
                 WHERE 1=1
                 AND o.id IN ($entityIdList)";
-
-            // Map alias tiếng Việt -> cột thật để filter/sort
-            $columnMapping = [
-                'id'                => 'o.id',
-                'Tên tổ chức'       => 'o.name',
-                'Tên tổ chức cha'   => 'org.name',
-                'Cấp độ tổ chức'    => 'o.org_level',
-                'Loại tổ chức'      => 'ot.name'
-            ];
+            
+            if (isset($_GET['org_id']) && is_numeric($_GET['org_id'])) {
+                $selected_org_id = intval($_GET['org_id']);
+                $query .= " AND o.parent_org_id = $selected_org_id";
+            }
         }
     } else {
         $query = "SELECT 1 WHERE 1=0";
+        debug_log("info", "Người dùng ID $userId không có quyền xem tổ chức nào." );
     }
 
-    $rowsPerPage = 10;
-    $currentPage = $_GET['page'] ?? 1;
-    $totalResults = totalResults($conn, $query);
-    $result = query($conn, $query); // chạy query gốc để lấy fieldNames
-    $totalPages = ceil($totalResults / $rowsPerPage);
-    $reloadLink = $_SERVER['REQUEST_URI'];
+    $rows_per_page = 10;
+    $current_page = $_GET['page'] ?? 1;
+    $total_results = total_results($conn, $query);
+    $result = query($query);
+    $total_pages = ceil($total_results / $rows_per_page);
+    $reload_link = $_SERVER['REQUEST_URI'];
 
     // Xác định trạng thái các nút dựa trên quyền
     if (defined("IS_DEBUG") && !IS_DEBUG) {
-        $canCreate = false;
-        $canAssign = true;
+        $canCreate = hasPermission($userId, 'create', null, $resource_type_id);
         $canEdit = true;
         $canDelete = true;
-        $canViewDetails = true;
-        // $canCreate = hasPermission($userId, 'Create', null, 'organizations');
-        // $canAssign = hasPermission($userId, 'Assign', null, 'organizations');
-        // $canEdit = hasPermission($userId, 'Edit', null, 'organizations');
-        // $canDelete = hasPermission($userId, 'Delete', null, 'organizations');
-        // $canViewDetails = hasPermission($userId, 'View', null, 'organizations');
-    } else {
-        $canCreate = false;
-        $canAssign = true;
+    } else {    
+        $canCreate = true;
         $canEdit = true;
         $canDelete = true;
-        $canViewDetails = true;
     }
-    $buttonList = [];
+    $button_list = [];
 
     if ($canCreate) {
-        $buttonList[] = [
+        $button_list[] = [
             "btn_type" => "Create",
             "label"    => "Tạo Tổ chức mới",
-            "btn_url"  => "/pages/organizations/form.php?redirectLink=" . urlencode($reloadLink)
-        ];
-    }
-
-    if ($canAssign) {
-        $buttonList[] = [
-            "btn_type" => "Assign",
-            "label"    => "Gán quan hệ Tổ chức",
-            "btn_url"  => ""
+            "btn_url"  => "/pages/organizations/form.php?redirect_link=" . urlencode($reload_link),
+            "placement" => "top",
+            "btn_class" => "create-btn"
         ];
     }
 
     if($canEdit) {
-        $buttonList[] = [
+        $button_list[] = [
             "btn_type" => "Edit",
             "label"    => "Chỉnh sửa",
             "btn_url"  => "/pages/organizations/form.php",
-            "check_action" => 'Edit'
+            "check_action" => 'Edit',
+            "placement" => "table",
+            "btn_class" => "edit-btn"
         ];
     }
 
     if($canDelete){
-        $buttonList[] = [
+        $button_list[] = [
             "btn_type" => "Delete",
             "label"    => "Xóa",
             "btn_url"  => "/includes/delete.php",
-            "confirm"  => true,
-            "check_action" => 'Delete'
-        ];
-    }
-    
-    if($canViewDetails) {
-        $buttonList[] = [
-            "btn_type" => "Details",
-            "label"    => "Chi tiết",
-            "btn_url"  => "index.php?pageName=org_details",
-            "check_action" => 'View'
+            "confirm"  => "Bạn có chắc chắn muốn xóa",
+            "check_action" => 'Delete',
+            "placement" => "table",
+            "btn_class" => "delete-btn"
         ];
     }
 
-    foreach ($buttonList as $button) {
-        if ($button['btn_type'] === 'Create') {
-            $createButton = $button;
-        }
-        if ($button['btn_type'] === 'Assign') {
-            $assignButton = $button;
-        }
-    }
+    
 ?>

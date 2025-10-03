@@ -10,7 +10,9 @@ CREATE TABLE users (
 CREATE TABLE actions (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100),
-    description TEXT
+    translated_name VARCHAR(100),
+    description TEXT,
+    need_specific_entity BOOLEAN
 );
 
 -- Bảng loại tổ chức (Trường, Liên chi đoàn, chi đoàn, câu lạc bộ, đội, nhóm,...) (Chi đoàn cơ sở, chi đoàn cán bộ)
@@ -18,6 +20,13 @@ CREATE TABLE org_types (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100),
     is_exclusive INT -- Chỉ được tham gia 1 = 1, được tham gia nhiều = 0
+);
+
+CREATE TABLE org_levels (
+    id INT PRIMARY KEY AUTO_INCREMENT, 
+    name VARCHAR(100),
+    level_index INT,
+    description TEXT
 );
 
 -- Bảng tổ chức (nhóm người dùng)
@@ -28,13 +37,15 @@ CREATE TABLE organizations (
     org_level INT COMMENT 'Cấp tương đương trong file phân quyền',
     org_type_id INT,
     FOREIGN KEY (parent_org_id) REFERENCES organizations(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (org_type_id) REFERENCES org_types(id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (org_type_id) REFERENCES org_types(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (org_level) REFERENCES org_levels(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Bảng loại tài nguyên (các loại thực thể như hoạt động, minh chứng, thành viên, tài liệu,...)
 CREATE TABLE resource_types (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100),
+    translated_name VARCHAR(100),
     version BIGINT COMMENT 'Phiên bản của loại tài nguyên, dùng để so sánh khi cập nhật'
 );
 
@@ -248,6 +259,7 @@ CREATE TABLE user_permission_snapshots (
     resource_type_id INT,
     org_id INT COMMENT 'ID tổ chức áp dụng quyền',
     resource_type_version BIGINT COMMENT 'Phiên bản loại tài nguyên tại thời điểm snapshot', -- Không dùng khóa ngoại vì cần có chênh lệch để so sánh
+    source TEXT,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (resource_id) REFERENCES resources(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (action_id) REFERENCES actions(id) ON DELETE CASCADE ON UPDATE CASCADE,

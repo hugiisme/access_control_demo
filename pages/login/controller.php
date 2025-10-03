@@ -1,43 +1,36 @@
 <?php 
-    require_once "table_renderer.php";
-    include "config/database.php";
+    require_once __DIR__ . "/../../includes/table_renderer.php";
+    require_once __DIR__ . "/../../config/database.php";
+    require_once __DIR__ . "/../../includes/access_control.php";
+    require_once __DIR__ . "/../../includes/notifications/notify.php";
+    require_once __DIR__ . "/../../includes/helper_function.php";
+    require_once __DIR__ . "/../../includes/query_helper.php";
 
-    $tableName = "users";
 
-    // Query gốc luôn có WHERE 1=1
-    $query = "SELECT * FROM `$tableName` WHERE 1=1";
-
-    $rowsPerPage = 10;
-    $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-
-    // Tính tổng kết quả trước khi phân trang
-    $totalResults = totalResults($conn, $query);
-    $totalPages = ceil($totalResults / $rowsPerPage);
-
-    // Link reload
-    $reloadLink = $_SERVER['REQUEST_URI'];
-
-    // Danh sách button
-    $buttonList = [
-        [   
-            "btn_type" => "Select", 
-            "label"    => "Chọn", 
-            "btn_url"  => "/pages/login/login.php"
-        ]
-    ];
-
-    // Tách riêng Create / Assign button nếu cần
-    $createButton = null;
-    $assignButton = null;
-    foreach ($buttonList as $button) {
-        if ($button['btn_type'] === 'Create') {
-            $createButton = $button;
-        }
-        if ($button['btn_type'] === 'Assign') {
-            $assignButton = $button;
-        }
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
     }
 
-    // Lấy result ban đầu (chưa phân trang, chưa filter) để table_content dùng
-    $result = query($conn, $query);
+    $table_name = "users";
+
+    $query = "SELECT 
+                u.id AS id,
+                u.name AS 'Tên người dùng'
+              FROM users u";
+
+    $rows_per_page = 10;
+    $current_page = $_GET['page'] ?? 1;
+    $total_results = total_results($conn, $query);
+    $result = query($query);
+    $total_pages = ceil($total_results / $rows_per_page);
+    $reload_link = $_SERVER['REQUEST_URI'];
+
+    $button_list[] = [
+        "btn_type" => "Select",
+        "label"    => "Chọn",
+        "btn_url"  => "/pages/login/login.php",
+        "placement" => "table",
+        "btn_class" => "select-btn"
+    ];
+
 ?>

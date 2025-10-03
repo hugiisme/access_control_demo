@@ -15,25 +15,30 @@
     color: white;
     font-family: sans-serif;
     font-size: 14px;
-    min-width: 200px;
+    width: 350px; /* width cố định */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.3s ease;
     opacity: 0.95;
     transition: transform 0.3s, opacity 0.3s;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    white-space: normal; /* cho phép xuống dòng */
+    word-break: break-word;
 }
 
 .notification.success {
     background-color: #4caf50;
-} /* Green */
+}
 .notification.error {
     background-color: #f44336;
-} /* Red */
+}
 .notification.info {
     background-color: #2196f3;
-} /* Blue */
+}
 .notification.warning {
     background-color: #ff9800;
-} /* Orange */
+}
 
 @keyframes fadeIn {
     from {
@@ -53,21 +58,21 @@
 
 .notification .close-btn {
     position: absolute;
-    top: 50%;
+    top: 8px;
     right: 10px;
-    transform: translateY(-50%);
     background: none;
     border: none;
-    font-size: 18px;
+    font-size: 24px;
     color: inherit;
     cursor: pointer;
     padding: 0;
     line-height: 1;
-    font-size: 24px;
 }
 
 .notification .message {
     display: block;
+    width: 100%;
     word-wrap: break-word;
-    max-width: 500px; /* Adjust for close button */
+    white-space: normal;
+    line-height: 1.4;
 }
