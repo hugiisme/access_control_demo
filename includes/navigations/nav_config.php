@@ -53,12 +53,17 @@
             "children" => [
                 [
                     "name" => "org_permissions",
-                    "title" => "Quyền theo tổ chức",
+                    "title" => "Quản lý quyền của tổ chức",
                     "debugOnly" => false
                 ],
                 [
-                    "name" => "role_permissions",
-                    "title" => "Quyền theo vai trò / nhóm vai trò",
+                    "name" => "system_role_group_permissions",
+                    "title" => "Quyền theo nhóm vai trò",
+                    "debugOnly" => false
+                ],
+                [
+                    "name" => "system_role_permissions",
+                    "title" => "Quyền theo vai trò",
                     "debugOnly" => false
                 ]
             ]

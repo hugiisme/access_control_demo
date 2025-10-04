@@ -185,12 +185,20 @@
         return $result;
     }
 
-    function getRoleByName($role_name) {
+    function getResourceRoleByName($role_name) {
         $query = "SELECT * 
                     FROM user_resource_roles 
                     WHERE name = '$role_name'";
         $result = query($query);
         return $result;
+    }
+
+    function getSystemRoleById($role_id){
+        $query = "SELECT * 
+                    FROM system_roles 
+                    WHERE id = $role_id";
+        $result = query($query);
+        return $result;    
     }
 
     function getParentRoleGroupList() {
@@ -230,5 +238,12 @@
         return $inherited;
     }
 
+    function getSystemRoleGroupByID($group_id) {
+        $query = "SELECT * 
+                    FROM system_role_groups 
+                    WHERE id = $group_id";
+        $result = query($query);
+        return $result;
+    }
 
 ?>

@@ -68,12 +68,14 @@
         $canCreate = hasPermission($userId, 'create', null, $resource_type_id);
         $canEdit = true;
         $canDelete = true;
-        $canAssign = hasPermission($user_id, "assign", null, $resource_type_id);
+        $canAssignToOrg = hasPermission($user_id, "assign", null, $resource_type_id);
+        $canAssignRoles = hasPermission($user_id, "assign_roles", null, $resource_type_id);
     } else {    
         $canCreate = true;
         $canEdit = true;
         $canDelete = true;
-        $canAssign = true;
+        $canAssignToOrg = true;
+        $canAssignRoles = true;
     }
     $button_list = [];
 
@@ -110,13 +112,22 @@
         ];
     }
 
-    if($canAssign){
+    if($canAssignToOrg){
         $button_list[] = [
             "btn_type" => "Assign",
             "label"    => "Thêm người dùng vào tổ chức",
-            "btn_url"  => "/pages/user_orgs/assign.php?org_id=". $org_id . "&redirect_link=" . urlencode($reload_link),
+            "btn_url"  => "/pages/user_orgs/assign_to_org.php?org_id=". $org_id . "&redirect_link=" . urlencode($reload_link),
             "placement" => "top",
             "btn_class" => "assign-btn"
+        ];
+    }
+    if($canAssignRoles){
+        $button_list[] = [
+            "btn_type" => "AssignRoles",
+            "label"    => "Phân vai trò",
+            "btn_url"  => "/pages/user_orgs/assign_roles.php?org_id=". $org_id,
+            "placement" => "table",
+            "btn_class" => "details-btn"
         ];
     }
     

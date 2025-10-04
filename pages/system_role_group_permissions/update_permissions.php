@@ -9,11 +9,11 @@
 
     header("Content-Type: application/json; charset=UTF-8");
 
-    $org_id = isset($_GET['org_id']) ? intval($_GET['org_id']) : 0;
-    $user_id  = isset($_POST['id']) ? intval($_POST['id']) : 0;
+    $group_id = isset($_GET['group_id']) ? intval($_GET['group_id']) : 0;
+    $permission_id  = isset($_POST['id']) ? intval($_POST['id']) : 0;
     $checked  = isset($_POST['checked']) ? intval($_POST['checked']) : 0;
 
-    if (!$org_id || !$user_id) {
+    if (!$group_id || !$permission_id) {
         http_response_code(400);
         echo json_encode(["error" => "Thiếu tham số"]);
         exit;
@@ -21,14 +21,14 @@
 
     if ($checked) {
         global $conn;
-        $sql = "INSERT INTO user_orgs (user_id, org_id) 
-                VALUES ($user_id, $org_id)";
+        $sql = "INSERT INTO system_role_group_permissions (system_role_group_id, permission_id) 
+                VALUES ($group_id, $permission_id)";
         $result = query($sql);
         if (!$result) {
             die("Insert failed");
         }
         $entity_id = mysqli_insert_id($conn);
-        $table_name = "user_orgs";
+        $table_name = "system_role_group_permissions";
         $resource_type_id = mysqli_fetch_assoc(getResourceTypeByName($table_name))["id"];
         $resource_name = $table_name . "_" . $entity_id;
         $resource_description = "Resource for {$table_name} ID {$entity_id}";
@@ -41,20 +41,20 @@
         assignResourceRoleToUser($user_id, $resource_type_id, $entity_id, $role_name);
         echo json_encode(["status" => "inserted"]);
     } else {
-        $find_entity_sql = "SELECT id FROM user_orgs WHERE user_id = $user_id AND org_id = $org_id";
+        $find_entity_sql = "SELECT id FROM system_role_group_permissions WHERE system_role_group_id = $group_id AND permission_id = $permission_id";
         $find_entity_result = query($find_entity_sql);
         $entity_row = mysqli_fetch_assoc($find_entity_result);
         $entity_id = $entity_row ? $entity_row["id"] : 0;
         if (!$entity_id) {
             http_response_code(400);
-            echo json_encode(["error" => "Quan hệ người dùng - tổ chức không tồn tại"]);
+            echo json_encode(["error" => "Quan hệ nhóm vai trò - quyền không tồn tại"]);
             exit;
         }
-        $sql = "DELETE FROM user_orgs WHERE id = $entity_id";
+        $sql = "DELETE FROM system_role_group_permissions WHERE id = $entity_id";
         query($sql);
 
         // Xóa resource tương ứng
-        $table_name = "user_orgs";
+        $table_name = "system_role_group_permissions";
         $resource_type_id = mysqli_fetch_assoc(getResourceTypeByName($table_name))["id"];
 
         // Tìm resource id trong bảng resources

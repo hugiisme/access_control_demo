@@ -276,3 +276,174 @@ Resource ID: 268
 -----------------------------
 
 [2025-10-03 15:18:35] (SUCCESS) Thêm dữ liệu thành công.
+[2025-10-04 01:46:40] (WARNING) Bạn chưa đăng nhập
+[2025-10-04 01:46:43] (SUCCESS) Đăng nhập thành công vào tài khoản 1 Đỗ Ba Chín
+[2025-10-04 09:39:40] (ERROR) ❌ SQL Error: Unknown column 'r.id' in 'on clause'
+👉 Query: SELECT
+                CASE WHEN usr.user_id IS NOT NULL THEN 1 ELSE 0 END AS is_checked,
+                sr.id AS id,
+                sr.name AS name
+            FROM system_roles sr
+            LEFT JOIN user_system_roles usr ON r.id = usr.system_role_id 
+            WHERE usr.user_id = 1 AND sr.org_id = 1
+📅 Time: 2025-10-04 09:39:40
+-----------------------------
+
+[2025-10-04 09:47:30] (ERROR) ❌ SQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+👉 Query: DELETE FROM user_system_roles WHERE id = 
+📅 Time: 2025-10-04 09:47:30
+-----------------------------
+
+[2025-10-04 09:48:02] (ERROR) ❌ SQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+👉 Query: DELETE FROM user_system_roles WHERE id = 
+📅 Time: 2025-10-04 09:48:02
+-----------------------------
+
+[2025-10-04 09:53:05] (SUCCESS) Thêm dữ liệu thành công.
+[2025-10-04 10:08:17] (ERROR) ❌ SQL Error: Unknown column 'p.name' in 'field list'
+👉 Query: SELECT
+                CASE WHEN op.org_id IS NOT NULL THEN 1 ELSE 0 END AS is_checked,
+                p.id AS id,
+                p.name AS name
+            FROM permissions p
+            LEFT JOIN org_permissions op 
+                ON p.id = op.permission_id 
+                AND op.org_id = 1
+📅 Time: 2025-10-04 10:08:17
+-----------------------------
+
+[2025-10-04 10:09:47] (SUCCESS) Thêm dữ liệu thành công.
+[2025-10-04 10:14:01] (ERROR) ❌ SQL Error: Table 'access_control.orgs' doesn't exist
+👉 Query: SELECT
+                CASE WHEN op.org_id IS NOT NULL THEN 1 ELSE 0 END AS is_checked,
+                p.id AS id,
+                a.name AS action_name,
+                rt.name AS resource_type
+            FROM permissions p
+            JOIN actions a ON p.action_id = a.id
+            JOIN resource_types rt ON p.resource_type_id = rt.id
+            -- chỉ lấy những quyền cha có
+            JOIN (
+                SELECT permission_id 
+                FROM org_permissions 
+                WHERE org_id = (SELECT parent_id FROM orgs WHERE id = 2)
+            ) parent_perms ON p.id = parent_perms.permission_id
+            LEFT JOIN org_permissions op 
+                ON p.id = op.permission_id 
+            AND op.org_id = 2
+            ORDER BY p.id
+📅 Time: 2025-10-04 10:14:01
+-----------------------------
+
+[2025-10-04 10:14:15] (ERROR) ❌ SQL Error: Unknown column 'parent_id' in 'field list'
+👉 Query: SELECT
+                CASE WHEN op.org_id IS NOT NULL THEN 1 ELSE 0 END AS is_checked,
+                p.id AS id,
+                a.name AS action_name,
+                rt.name AS resource_type
+            FROM permissions p
+            JOIN actions a ON p.action_id = a.id
+            JOIN resource_types rt ON p.resource_type_id = rt.id
+            -- chỉ lấy những quyền cha có
+            JOIN (
+                SELECT permission_id 
+                FROM org_permissions 
+                WHERE org_id = (SELECT parent_id FROM organizations WHERE id = 2)
+            ) parent_perms ON p.id = parent_perms.permission_id
+            LEFT JOIN org_permissions op 
+                ON p.id = op.permission_id 
+            AND op.org_id = 2
+            ORDER BY p.id
+📅 Time: 2025-10-04 10:14:15
+-----------------------------
+
+[2025-10-04 10:19:56] (ERROR) ❌ SQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' 264, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = r...' at line 2
+👉 Query: INSERT INTO user_resources (user_id, resource_id, resource_role_id) 
+                       VALUES (, 264, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = resource_role_id
+📅 Time: 2025-10-04 10:19:56
+-----------------------------
+
+[2025-10-04 10:28:12] (SUCCESS) Thêm dữ liệu thành công.
+[2025-10-04 10:33:17] (ERROR) ❌ SQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' 266, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = r...' at line 2
+👉 Query: INSERT INTO user_resources (user_id, resource_id, resource_role_id) 
+                       VALUES (, 266, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = resource_role_id
+📅 Time: 2025-10-04 10:33:17
+-----------------------------
+
+[2025-10-04 10:33:26] (ERROR) ❌ SQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' 267, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = r...' at line 2
+👉 Query: INSERT INTO user_resources (user_id, resource_id, resource_role_id) 
+                       VALUES (, 267, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = resource_role_id
+📅 Time: 2025-10-04 10:33:26
+-----------------------------
+
+[2025-10-04 10:41:48] (SUCCESS) Thêm dữ liệu thành công.
+[2025-10-04 10:45:17] (ERROR) ❌ SQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' 269, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = r...' at line 2
+👉 Query: INSERT INTO user_resources (user_id, resource_id, resource_role_id) 
+                       VALUES (, 269, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = resource_role_id
+📅 Time: 2025-10-04 10:45:17
+-----------------------------
+
+[2025-10-04 10:45:32] (ERROR) ❌ SQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' 270, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = r...' at line 2
+👉 Query: INSERT INTO user_resources (user_id, resource_id, resource_role_id) 
+                       VALUES (, 270, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = resource_role_id
+📅 Time: 2025-10-04 10:45:32
+-----------------------------
+
+[2025-10-04 10:47:25] (ERROR) ❌ SQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' 271, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = r...' at line 2
+👉 Query: INSERT INTO user_resources (user_id, resource_id, resource_role_id) 
+                       VALUES (, 271, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = resource_role_id
+📅 Time: 2025-10-04 10:47:25
+-----------------------------
+
+[2025-10-04 10:47:29] (ERROR) ❌ SQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' 272, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = r...' at line 2
+👉 Query: INSERT INTO user_resources (user_id, resource_id, resource_role_id) 
+                       VALUES (, 272, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = resource_role_id
+📅 Time: 2025-10-04 10:47:29
+-----------------------------
+
+[2025-10-04 10:47:30] (ERROR) ❌ SQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' 273, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = r...' at line 2
+👉 Query: INSERT INTO user_resources (user_id, resource_id, resource_role_id) 
+                       VALUES (, 273, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = resource_role_id
+📅 Time: 2025-10-04 10:47:30
+-----------------------------
+
+[2025-10-04 10:47:30] (ERROR) ❌ SQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' 274, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = r...' at line 2
+👉 Query: INSERT INTO user_resources (user_id, resource_id, resource_role_id) 
+                       VALUES (, 274, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = resource_role_id
+📅 Time: 2025-10-04 10:47:30
+-----------------------------
+
+[2025-10-04 10:47:43] (ERROR) ❌ SQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' 275, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = r...' at line 2
+👉 Query: INSERT INTO user_resources (user_id, resource_id, resource_role_id) 
+                       VALUES (, 275, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = resource_role_id
+📅 Time: 2025-10-04 10:47:43
+-----------------------------
+
+[2025-10-04 10:47:43] (ERROR) ❌ SQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' 276, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = r...' at line 2
+👉 Query: INSERT INTO user_resources (user_id, resource_id, resource_role_id) 
+                       VALUES (, 276, 1)
+                       ON DUPLICATE KEY UPDATE resource_role_id = resource_role_id
+📅 Time: 2025-10-04 10:47:43
+-----------------------------
+
